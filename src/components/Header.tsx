@@ -22,18 +22,18 @@ export default function Header() {
   </button>
   {isOpen && (
   <div className="absolute right-0 top-full mt-1 bg-white border rounded shadow-md z-10">
-    {["GEO", "ENG"].map((lang) => (
+    {["GEO", "ENG"].map((key) => (
       <button
-        key={lang}
+        key={key}
         onClick={() => {
-          setLanguage(lang);
+          setLanguage(key);
           setIsOpen(false);
         }}
         className={`block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 ${
-          lang === language ? "font-bold text-blue-600" : ""
+          key === language ? "font-bold text-blue-600" : ""
         }`}
       >
-        {lang}
+        {key}
       </button>
     ))}
   </div>
