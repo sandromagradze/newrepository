@@ -1,118 +1,29 @@
 import Header from "../components/Header";
-import MainCard from "../components/MainCard";
+import MainCard from "../components/maincard/MainCard";
 import NewsCard from "../components/NewsCard";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import WrapperA from "../components/WrapperA";
 import ProfileCard from "../components/ProfileCard";
 import VideoCard from "../components/VideoCard";
 import MiniNewsCard from "../components/MiniNewsCard";
 import SliderNews from "../components/SliderNews";
-
-const newMiniNews = [
-  {
-    image: "/zviada.svg",
-    time: "05.04.2026 / 22:24",
-    title: "პარლამენტთან მიმდიანრე აქციაზე, ოპოზიცია პროტესტს აანონსებს",
-  },
-  {
-    image: "/kanxa.svg",
-    time: "05.04.2026 / 22:24",
-    title: "პარლამენტთან მიმდიანრე აქციაზე, ოპოზიცია პროტესტს აანონსებს",
-  },
-  {
-    image: "/mere.svg",
-    time: "05.04.2026 / 22:24",
-    title: "პარლამენტთან მიმდიანრე აქციაზე, ოპოზიცია პროტესტს აანონსებს",
-  },
-  {
-    image: "/conteinerebi.svg",
-    time: "05.04.2026 / 22:24",
-    title: "პარლამენტთან მიმდიანრე აქციაზე, ოპოზიცია პროტესტს აანონსებს",
-  },
-];
-
-const newProfileCard = [
-  {
-    image: "/link1.svg",
-    name: "მიხეილ სააკაშვილი",
-    status: "ყოფილი პრეზიდენტი",
-    buttonText: "გაიგე მეტი",
-  },
-  {
-    image: "/merabishvili.svg",
-    name: "ვანო მერაბიშვილი",
-    status: "ყოფილი პრემიერ-მინისტრი",
-    buttonText: "გაიგე მეტი",
-  },
-  {
-    image: "/ugulava.svg",
-    name: "გიგი უგულავა",
-    status: "ყოფილი თბილისის მერი",
-    buttonText: "გაიგე მეტი",
-  },
-  {
-    image: "/link3.svg",
-    name: "კახი კალაძე",
-    status: "თბილისის მერი",
-    buttonText: "გაიგე მეტი",
-  },
-];
-
-const videoData = [
-  {
-    image: "/Region.png",
-  },
-  {
-    image: "/palitra.svg",
-  },
-];
-
-const newsData = [
-  {
-    title:
-      "საჰაერო თავდასხმის შედეგად, ირანის ისლამური რევოლუციის გუშაგთა კორპუსის დაზვერვის უფროსი დაიღუპა",
-    time: "-214 წუთის წინ",
-    image: "/zviada.svg",
-  },
-  {
-    title: "პარლამენტში ბიუჯეტის განხილვა დაიწყო — ოპოზიცია პროტესტს აანონსებს",
-    time: "-45 წუთის წინ",
-    image: "/kanxa.svg",
-  },
-  {
-    title: "ეკონომიკის ზრდის ტემპმა ბოლო კვარტალში 6.2% შეადგინა",
-    time: "-1 საათის წინ",
-    image: "/mere.svg",
-  },
-  {
-    title:
-      "ქალაქში ახალი სკვერის მშენებლობა დაიწყო — პროექტის დეტალები ცნობილია",
-    time: "-2 საათის წინ",
-    image: "/conteinerebi.svg",
-  },
-  {
-    title: "საერთაშორისო კონფერენციამ რეკორდული რაოდენობის მონაწილე დააფიქსირა",
-    time: "-3 საათის წინ",
-    image: "/favicon.svg",
-  },
-  {
-    title: "ახალი ტექნოლოგიური ცენტრი მოსახლეობას ხვალიდან უმასპინძლებს",
-    time: "-5 საათის წინ",
-    image: "/ipn.jpeg",
-    preview: "ახალი ტექნოლოგიური ცენტრი მოსახლეობას ხვალიდან უმასპინძლებს",
-  },
-  {
-    title: "სპორტის საერთაშორისო ფესტივალი ქალაქში იწყება — დეტალები ცნობილია",
-    time: "-6 საათის წინ",
-    image: "/kanxa.svg",
-    preview:
-      "სპორტის საერთაშორისო ფესტივალი ქალაქში იწყება — დეტალები ცნობილია",
-  },
-];
+import miniNews from "../_data/miniNews.json";
+import profileCards from "../_data/profileCards.json";
+import videos from "../_data/videos.json";
+import homeNews from "../_data/homeNews.json";
+import { useLocalizedData } from "../i18n/useLocalizedData";
+import { useTranslation } from "react-i18next";
+import SideNewsCard from "../components/SideNewsCard";
 
 export default function Home() {
+  const { t } = useTranslation();
+  const localizedHomeNews = useLocalizedData(homeNews);
+  const localizedProfileCards = useLocalizedData(profileCards);
+  const localizedMiniNews = useLocalizedData(miniNews);
+  const featuredNews = localizedHomeNews[0];
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className=" bg-gray-100">
       <WrapperA>
         <Header />
         <Navbar />
@@ -121,23 +32,22 @@ export default function Home() {
       <main className="py-6">
         <WrapperA>
           <div className="mb-5 lg:block">
-          <SliderNews/>
+            <SliderNews />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <section className="lg:col-span-8 space-y-6">
-              <div className="lg:hidden">
-                <MainCard
-                  time="-214 წუთის წინ"
-                  title="საჰაერო თავდასხმის შედეგად,
-„ირანის ისლამური რევოლუციის
-გუშაგთა კორპუსის“ დაზვერვის
-უფროსი დაიღუპა"
-                  image="/zviada.svg"
-                />
-              </div>
+              {featuredNews && (
+                <div className="lg:hidden">
+                  <MainCard
+                    time={featuredNews.time}
+                    title={featuredNews.title}
+                    image={featuredNews.image}
+                  />
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {newsData.map((news, index) => (
+                {localizedHomeNews.map((news, index) => (
                   <NewsCard
                     key={index}
                     title={news.title}
@@ -149,24 +59,24 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                {newProfileCard.map((profile, index) => (
+                {localizedProfileCards.map((profile, index) => (
                   <ProfileCard
                     key={index}
                     image={profile.image}
                     name={profile.name}
                     status={profile.status}
-                    buttonText={profile.buttonText}
                   />
                 ))}
               </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
-                {videoData.map((video, index) => (
+                {videos.map((video, index) => (
                   <VideoCard key={index} image={video.image} />
                 ))}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mt-6">
-                {newMiniNews.map((news, index) => (
+                {localizedMiniNews.map((news, index) => (
                   <MiniNewsCard
                     key={index}
                     title={news.title}
@@ -177,8 +87,10 @@ export default function Home() {
               </div>
             </section>
 
-            <aside className="lg:col-span-4 space-y-4">
-              <img src="/Link.svg" alt="" />
+            <aside className="lg:col-span-4 space-y-4 flex">
+              < SideNewsCard />
+              <img src="/Link.svg" alt={t("common.sidebarAdAlt")}  className="w-[286px] h-[503px]"/>
+              
             </aside>
           </div>
         </WrapperA>

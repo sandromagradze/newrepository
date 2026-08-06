@@ -1,0 +1,24 @@
+{
+  "languages": {
+    "geo": "GEO",
+    "eng": "ENG"
+  },
+  "header": {
+    "logoAlt": "IPN Logo"
+  },
+  "nav": {
+    "home": "Home",
+    "politics": "Politics",
+    "economy": "Economy",
+    "society": "Society",
+    "law": "Law",
+    "world": "World",
+    "sport": "Sport"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "newsAlt": "News",
+    "videoAlt": "Video",
+    "sidebarAdAlt": "Advertisement"
+  }
+}

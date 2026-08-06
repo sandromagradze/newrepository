@@ -31,7 +31,7 @@ export default function NewsCard({ title, time, image, isActive = false, preview
         <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 hover:text-blue-600 cursor-pointer">
           {title}
         </h3>
-        <span className="text-xs text-gray-400">{time}</span>
+        <span className="text-xs font-[400px] text-[10px] text-[„#5A5A5A]">{time}</span>
         {preview && (
           <p className="text-sm text-gray-600 mt-2">{preview}</p>
         )}

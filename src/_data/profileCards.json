@@ -1,0 +1,46 @@
+[
+  {
+    "image": "/link1.svg",
+    "name": {
+      "ka": "მიხეილ სააკაშვილი",
+      "en": "Mikheil Saakashvili"
+    },
+    "status": {
+      "ka": "ყოფილი პრეზიდენტი",
+      "en": "Former President"
+    }
+  },
+  {
+    "image": "/merabishvili.svg",
+    "name": {
+      "ka": "ვანო მერაბიშვილი",
+      "en": "Vano Merabishvili"
+    },
+    "status": {
+      "ka": "ყოფილი პრემიერ-მინისტრი",
+      "en": "Former Prime Minister"
+    }
+  },
+  {
+    "image": "/ugulava.svg",
+    "name": {
+      "ka": "გიგი უგულავა",
+      "en": "Gigi Ugulava"
+    },
+    "status": {
+      "ka": "ყოფილი თბილისის მერი",
+      "en": "Former Mayor of Tbilisi"
+    }
+  },
+  {
+    "image": "/link3.svg",
+    "name": {
+      "ka": "კახი კალაძე",
+      "en": "Kakha Kaladze"
+    },
+    "status": {
+      "ka": "თბილისის მერი",
+      "en": "Mayor of Tbilisi"
+    }
+  }
+]

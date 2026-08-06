@@ -1,3 +1,5 @@
+import "./MainCard.css"
+
 interface MainCardProps{
     title: string;
     time:string;
@@ -10,13 +12,13 @@ export default function MainCard ({title, time, image}:MainCardProps){
 
        <div className="flex flex-col-reverse md:flex-row gap-4 bg-white p-2 items-center">
       <div className="flex-1 flex flex-col gap-2">
-        <span className="text-xs font-bold text-red-400">{time}</span>
-        <h2 className="text-sm font-bold text-gray-900 leading-tight hover:text-blue-600 cursor-pointer">
+        <span className="text-xs font-bold text-[#424242]">{time}</span>
+        <h2 className="text-sm font-bold text-[#333333] leading-tight hover:text-blue-600 cursor-pointer">
           {title}
         </h2>
       </div>
       
-      <div className="w-full md:w-1/2 h-48 md:h-52">
+      <div className="w-full md:w-1/2 h-48 md:h-52 .">
         <img
           src={image}
           alt={title}

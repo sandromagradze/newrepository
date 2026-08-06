@@ -1,18 +1,35 @@
 [
   {
-    "title": "მეუფე შიო - მართალია დღეს ადამიანები არ ყვირიან „ჯვარს აცვი!“ მაგრამ ხშირია, როდესაც ივიწყებენ უფალს, ღალატობენ და შორდებიან - ცოდვით, ბოროტებით, უწმინდურობით, უსამართლობით, უკანონობით, ცილისწამებით,",
-    "time": "-214 წუთის წინ",
+    "title": {
+      "ka": "მეუფე შიო - მართალია დღეს ადამიანები არ ყვირიან „ჯვარს აცვი!“ მაგრამ ხშირია, როდესაც ივიწყებენ უფალს, ღალატობენ და შორდებიან - ცოდვით, ბოროტებით, უწმინდურობით, უსამართლობით, უკანონობით, ცილისწამებით,",
+      "en": "Bishop Shio - It is true that today people do not shout \"Crucify him!\" but it is common when they forget the Lord, they betray and stray through sin, wickedness, impurity, injustice, lawlessness, and slander."
+    },
+    "time": {
+      "ka": "-214 წუთის წინ",
+      "en": "214 minutes ago"
+    },
     "image": "/shio.svg"
   },
   {
-    "title": "მოსკოვის მექანიზმის, ანგარიშის ავტორი პატრიცია გრუჟებიკი",
-    "time": "-158 წუთის წინ",
+    "title": {
+      "ka": "მოსკოვის მექანიზმის, ანგარიშის ავტორი პატრიცია გრუჟებიკი",
+      "en": "Patrycja Grzejszczak, author of the Moscow Mechanism report"
+    },
+    "time": {
+      "ka": "-158 წუთის წინ",
+      "en": "158 minutes ago"
+    },
     "image": "/qali.svg"
   },
   {
-    "title": "რატომ შედიან ქალები ICT\nსექტორში გვიან: ასაკობრივი\nსტრუქტურა, კარიერული\nტრანსფორმაცია და\nსაერთაშორისო გამოცდილება",
-    "time": "-148 წუთის წინ",
+    "title": {
+      "ka": "რატომ შედიან ქალები ICT\nსექტორში გვიან: ასაკობრივი\nსტრუქტურა, კარიერული\nტრანსფორმაცია და\nსაერთაშორისო გამოცდილება",
+      "en": "Why women enter the ICT\nsector later: age\nstructure, career\ntransformation, and\ninternational experience"
+    },
+    "time": {
+      "ka": "-148 წუთის წინ",
+      "en": "148 minutes ago"
+    },
     "image": "/batumi.svg"
   }
 ]
-  

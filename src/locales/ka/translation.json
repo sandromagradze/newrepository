@@ -1,0 +1,24 @@
+{
+  "languages": {
+    "geo": "GEO",
+    "eng": "ENG"
+  },
+  "header": {
+    "logoAlt": "IPN ლოგო"
+  },
+  "nav": {
+    "home": "მთავარი",
+    "politics": "პოლიტიკა",
+    "economy": "ეკონომიკა",
+    "society": "საზოგადოება",
+    "law": "სამართალი",
+    "world": "მსოფლიო",
+    "sport": "სპორტი"
+  },
+  "common": {
+    "learnMore": "გაიგე მეტი",
+    "newsAlt": "სიახლე",
+    "videoAlt": "ვიდეო",
+    "sidebarAdAlt": "რეკლама"
+  }
+}

@@ -1,45 +1,49 @@
 import { useState } from "react";
 
+import { useTranslation } from "react-i18next";
+
+import { SUPPORTED_LANGUAGES } from "../i18n";
+
+import CurrencyTransfer from "./CurrencyTransfer";
+import LanguageChange from "./languageChange";
+
 export default function Header() {
-   const [language, setLanguage] = useState("GEO");
+  const { t, i18n } = useTranslation();
+
   const [isOpen, setIsOpen] = useState(false);
-  
-  
+
+  const currentLanguage =
+    SUPPORTED_LANGUAGES.find(({ code }) =>
+      i18n.resolvedLanguage?.startsWith(code),
+    )?.code ?? "ka";
+
+  const currentLabel = SUPPORTED_LANGUAGES.find(
+    ({ code }) => code === currentLanguage,
+  )?.labelKey;
+
   return (
-    <header className="bg-white border-b py-4 px-6 flex items-center justify-between">
+    <header className="bg-white mb-2 py-4 px-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
-       
-        
-        <img src="/ipn.jpeg" alt="IPN Logo" className="h-10 w-auto" />
+        <img
+          src="/ipn.jpeg"
+          alt={t("header.logoAlt")}
+          className="h-30 w-auto"
+        />
       </div>
-      <div className="relative">
-  <button
-    onClick={() => setIsOpen(!isOpen)}
-    className="flex items-center gap-1 text-sm font-medium cursor-pointer"
-  >
-    {language}
-    <span className="text-xs">▼</span>
-  </button>
-  {isOpen && (
-  <div className="absolute right-0 top-full mt-1 bg-white border rounded shadow-md z-10">
-    {["GEO", "ENG"].map((key) => (
-      <button
-        key={key}
-        onClick={() => {
-          setLanguage(key);
-          setIsOpen(false);
-        }}
-        className={`block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 ${
-          key === language ? "font-bold text-blue-600" : ""
-        }`}
-      >
-        {key}
-      </button>
-    ))}
-  </div>
-)}
-</div>
-       
+
+      <div className="flex items-center gap-10">
+        <CurrencyTransfer />
+        <div className="flex flex-col items-center gap-4">
+          <LanguageChange
+            setIsOpen={setIsOpen}
+            isOpen={isOpen}
+            currentLabel={currentLabel}
+            SUPPORTED_LANGUAGES={SUPPORTED_LANGUAGES}
+            currentLanguage={currentLanguage}
+          />
+     
+        </div>
+      </div>
     </header>
   );
 }
