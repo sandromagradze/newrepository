@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import SearchBar from "../SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 import "./Navbar.css"
 
 export default function Navbar() {

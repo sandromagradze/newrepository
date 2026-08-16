@@ -1,0 +1,112 @@
+.footer-container {
+  background-color: #1e5ba6; /* Figma-ში მითითებული ლურჯი ფერი */
+  color: #ffffff;
+  padding: 30px 0;
+  width: 100%;
+  margin-top: 40px;
+  font-family: inherit;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.footer-nav .divider {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-disclaimer {
+  font-size: 11px;
+  line-height: 1.5;
+  opacity: 0.85;
+  margin: 0;
+}
+
+
+.footer-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.contact-icon {
+  font-size: 14px;
+}
+
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.partner-logo .logo-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.logo-placeholder img {
+  display: block;
+  width: 88px;
+  height: auto;
+}
+
+.copyright-text {
+  font-size: 12px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-right {
+    align-items: flex-start;
+  }
+}

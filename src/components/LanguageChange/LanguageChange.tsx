@@ -1,5 +1,6 @@
-import i18n, { SUPPORTED_LANGUAGES as SUPPORTED_LANGUAGES_LIST } from "../i18n";
+import i18n, { SUPPORTED_LANGUAGES as SUPPORTED_LANGUAGES_LIST } from "../../i18n";
 import { useTranslation } from "react-i18next";
+import "./LanguageChange.css";
 
 interface LanguageChangeProps {
   setIsOpen: (isOpen: boolean) => void;
@@ -19,28 +20,26 @@ export default function LanguageChange({
   const { t } = useTranslation();
 
   return (
-    <div className="relative">
+    <div className="language-change-container">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-sm font-medium cursor-pointer"
+        className="language-change-button"
       >
         {currentLabel ? t(currentLabel) : "GEO"}
-
-        <span className="text-xs">▼</span>
+        <span className="language-change-arrow">▼</span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 bg-white border rounded shadow-md z-10">
+        <div className="language-change-menu">
           {SUPPORTED_LANGUAGES.map(({ code, labelKey }) => (
             <button
               key={code}
               onClick={() => {
                 void i18n.changeLanguage(code);
-
                 setIsOpen(false);
               }}
-              className={`block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 ${
-                code === currentLanguage ? "font-bold text-blue-600" : ""
+              className={`language-change-item ${
+                code === currentLanguage ? "language-change-item-active" : ""
               }`}
             >
               {t(labelKey)}
@@ -48,8 +47,14 @@ export default function LanguageChange({
           ))}
         </div>
       )}
-      <div className="h-[] flex mt-2 text-[#777777] text-[13px]"><p>ორშ/6აპრ/26</p> <p>08:36:21</p></div>
-      <div className="text-[#15AADC] text-[13px] leading-[42px] "><p>ამინდი/AMINDI.GE</p></div>
+
+      <div className="language-change-meta">
+        <p>ორშ/6აპრ/26</p>
+        <p>08:36:21</p>
+      </div>
+      <div className="language-change-weather">
+        <p>ამინდი/AMINDI.GE</p>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,22 @@
+.slider-news-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.slider-news-dot {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  background: #e5e7eb;
+  color: #000000;
+}
+
+.slider-news-dot-active {
+  background: #1e5ba6;
+  color: #ffffff;
+}

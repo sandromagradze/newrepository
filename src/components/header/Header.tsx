@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
-import { SUPPORTED_LANGUAGES } from "../i18n";
+import { SUPPORTED_LANGUAGES } from "../../i18n";
 
-import CurrencyTransfer from "./CurrencyTransfer";
-import LanguageChange from "./languageChange";
+import CurrencyTransfer from "../currency/CurrencyTransfer";
+import LanguageChange from "../LanguageChange/LanguageChange";
+import "./Header.css" 
+
 
 export default function Header() {
   const { t, i18n } = useTranslation();

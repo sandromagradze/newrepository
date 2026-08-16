@@ -1,19 +1,20 @@
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import MainCard from "../components/maincard/MainCard";
-import NewsCard from "../components/NewsCard";
+import NewsCard from "../components/NewsCard/NewsCard";
 import Navbar from "../components/Navbar/Navbar";
-import WrapperA from "../components/WrapperA";
-import ProfileCard from "../components/ProfileCard";
-import VideoCard from "../components/VideoCard";
-import MiniNewsCard from "../components/MiniNewsCard";
-import SliderNews from "../components/SliderNews";
+import WrapperA from "../components/WrapperA/WrapperA";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
+import VideoCard from "../components/VideoCard/VideoCard";
+import MiniNewsCard from "../components/MiniNewsCard/MiniNewsCard";
+import SliderNews from "../components/SliderNews/SliderNews";
 import miniNews from "../_data/miniNews.json";
 import profileCards from "../_data/profileCards.json";
 import videos from "../_data/videos.json";
 import homeNews from "../_data/homeNews.json";
 import { useLocalizedData } from "../i18n/useLocalizedData";
 import { useTranslation } from "react-i18next";
-import SideNewsCard from "../components/SideNewsCard";
+import SideNewsCard from "../components/SideNewsCard/SideNewsCard";
+import Footer from "../components/Footer/Footer";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -84,7 +85,8 @@ export default function Home() {
                     image={news.image}
                   />
                 ))}
-              </div>
+              </div> 
+              
             </section>
 
             <aside className="lg:col-span-4 space-y-4 flex">
@@ -92,9 +94,12 @@ export default function Home() {
               <img src="/Link.svg" alt={t("common.sidebarAdAlt")}  className="w-[286px] h-[503px]"/>
               
             </aside>
+            
           </div>
+         
         </WrapperA>
       </main>
+      <Footer/>
     </div>
   );
 }

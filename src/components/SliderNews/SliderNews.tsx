@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import MainCard from "./maincard/MainCard";
-import newsData from "../_data/news.json";
-import { useLocalizedData } from "../i18n/useLocalizedData";
+import MainCard from "../maincard/MainCard";
+import newsData from "../../_data/news.json";
+import { useLocalizedData } from "../../i18n/useLocalizedData";
+import "./SliderNews.css";
 
 export default function SliderNews() {
   const localizedNews = useLocalizedData(newsData);
@@ -20,22 +21,20 @@ export default function SliderNews() {
   }
 
   return (
-    <div className="">
+    <div>
       <MainCard
         title={current.title}
         time={current.time}
         image={current.image}
       />
 
-      <div className="flex  items-center justify-center gap-2 mt-4">
+      <div className="slider-news-dots">
         {localizedNews.map((_item, index) => (
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`w-9 h-9 rounded text-sm font-bold ${
-              index === activeIndex
-                ? "bg-[#1E5BA6] text-white"
-                : "bg-gray-200 text-black"
+            className={`slider-news-dot ${
+              index === activeIndex ? "slider-news-dot-active" : ""
             }`}
           >
             {index + 1}
