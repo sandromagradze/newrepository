@@ -70,17 +70,24 @@
 }
 
 .side-news-link {
-  padding: 0.125rem 0.5rem;
-  background: #073d83;
-  color: #ffffff;
-  font-size: 0.75rem;
-  border-radius: 25px;
+
+  padding:4px;
+angle: 0 deg;
+opacity: 1;
+border:2px;
+border-radius: 2px;
+    color:#FFFFFF;
+  background-color: #073D83;
 }
 
 .side-news-item-title {
   font-size: 13px;
+  width:234px;
+  height: 60px;
   font-weight: 500;
-  color: #000000;
+  color: #333333;
   line-height: 1.4;
   cursor: pointer;
+  margin-top:8px;
+  margin-bottom: 10px;
 }

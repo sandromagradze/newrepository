@@ -20,8 +20,8 @@ export default function MiniNewsCard({ title, time, image }: MiniNewsCardProps) 
         />
 
         <div className="mini-news-card-content">
+            <span className="mini-news-card-time">{time}</span>
           <h3 className="mini-news-card-title">{title}</h3>
-          <span className="mini-news-card-time">{time}</span>
         </div>
       </div>
     </div>

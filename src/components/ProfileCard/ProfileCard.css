@@ -4,10 +4,12 @@
   align-items: center;
   margin-top: 30px;
   padding: 1rem;
-  background: #ffffff;
+  background: #F7F7F7;
   border-radius: 0.25rem;
   text-align: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  height: auto;
 }
 
 .profile-card-image {
@@ -16,31 +18,36 @@
   margin-bottom: 1rem;
   object-fit: cover;
   border-radius: 9999px;
+  
 }
 
 .profile-card-name {
   margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #111827;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1E5BA6;
 }
 
 .profile-card-status {
   margin-bottom: 1rem;
-  font-size: 0.875rem;
-  color: #4b5563;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1E5BA6A6;
+  text-align: center;
+  width: 199px;
 }
 
 .profile-card-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #3b82f6;
-  color: #ffffff;
+  background: #D6D6D6;
+  color: #406797;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   transition: background-color 0.2s ease;
   cursor: pointer;
+
 }
 
 .profile-card-button:hover {
@@ -50,4 +57,14 @@
 .profile-card-button-icon {
   width: 1rem;
   height: 1rem;
+  
+}
+.profile-card-size{
+  width: 212px;
+  height: 332px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  
 }

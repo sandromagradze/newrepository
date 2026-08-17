@@ -24,7 +24,7 @@ export default function Home() {
   const featuredNews = localizedHomeNews[0];
 
   return (
-    <div className=" bg-gray-100">
+    <div className=" bg-[#ffffff] overflow-hidden">
       <WrapperA>
         <Header />
         <Navbar />

@@ -12,16 +12,18 @@ export default function SideNewsCard() {
         {SideNewsData.map((item) => (
           <div key={item.id} className="side-news-item">
             <div className="side-news-meta">
-              <span className="side-news-time">{item.time}</span>
+             
               {item.category && (
                 <span className="side-news-category">• {item.category}</span>
               )}
             </div>
             <img src={item.image} className="side-news-image" alt={item.title} />
-            <div className="side-news-link-wrap">
+             <span className="side-news-time">{item.time}</span>
+           
+            <h3 className="side-news-item-title">{item.title}</h3>
+             <div className="side-news-link-wrap">
               <p className="side-news-link">ყველა სიახლე ▶</p>
             </div>
-            <h3 className="side-news-item-title">{item.title}</h3>
           </div>
         ))}
       </div>

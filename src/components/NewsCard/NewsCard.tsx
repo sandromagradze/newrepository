@@ -25,9 +25,10 @@ export default function NewsCard({ title, time, image, isActive = false, preview
   return (
     <div className="news-card-compact">
       <img src={image} className="news-card-image-compact" alt={title} />
+      <span className="news-card-time-compact">{time}</span>
       <div className="news-card-content-compact">
         <h3 className="news-card-title-compact">{title}</h3>
-        <span className="news-card-time-compact">{time}</span>
+        
         {preview && <p className="news-card-preview-compact">{preview}</p>}
       </div>
     </div>

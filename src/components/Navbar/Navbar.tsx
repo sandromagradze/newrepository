@@ -15,8 +15,13 @@ export default function Navbar() {
     "nav.sport",
   ] as const;
 
+  const handleSearch = (searchTerm: string) => {
+    console.log("Search for:", searchTerm);
+    
+  };
+
   return (
-    <nav className="bg-[#FFFFFF] flex justify-between">
+    <nav className="bg-[#FFFFFF] text-[12px] flex justify-between">
       <ul className="flex gap-6 px-6 py-2">
         {categories.map((key) => (
           <li key={key} className="navitem ">
@@ -24,7 +29,7 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
     </nav>
   );
 }

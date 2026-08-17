@@ -12,10 +12,13 @@ export default function ProfileCard({ image, name, status }: ProfileCardProps) {
 
   return (
     <div className="profile-card">
+      <div className="profile-card-size">
       <img src={image} className="profile-card-image" alt={name} />
       <h3 className="profile-card-name">{name}</h3>
       <p className="profile-card-status">{status}</p>
       <button className="profile-card-button">
+
+      
         {t("common.learnMore")}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +35,7 @@ export default function ProfileCard({ image, name, status }: ProfileCardProps) {
           />
         </svg>
       </button>
+      </div>
     </div>
   );
 }

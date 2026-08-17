@@ -1,7 +1,8 @@
 .navitem{
     color: #535353;
     line-height: 39px;
-    font-size: 12px;
+    font-weight: 400;
+    font-size:13px;
     cursor: pointer;
     gap:16px;
     
