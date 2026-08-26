@@ -1,53 +1,94 @@
+
+.profile-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 .profile-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
-  padding: 1rem;
+  padding: 16px;
   background: #F7F7F7;
-  border-radius: 0.25rem;
+  border-radius: 3px;
   text-align: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  height: 332px;
+  box-sizing: border-box;
+  width: 100%; 
+  gap: 16px;         
+  justify-content: flex-start; 
+}
+
+.profile-card-size {
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.profile-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .profile-card-image {
-  width: 6rem;
-  height: 6rem;
-  margin-bottom: 1rem;
+  width: 80px;
+  height: 80px;
+  margin-top: 4px;
+  margin-bottom: 12px;
   object-fit: cover;
   border-radius: 9999px;
-  
+  flex-shrink: 0;
 }
 
 .profile-card-name {
-  margin-bottom: 0.5rem;
+  margin: 0 0 6px 0;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   color: #1E5BA6;
+  width: 100%;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 .profile-card-status {
-  margin-bottom: 1rem;
-  font-size: 14px;
+  margin: 0;
+  font-size: 13px;
   font-weight: 400;
-  color: #1E5BA6A6;
+  color: #1E5BA6;
+  opacity: 0.75;
   text-align: center;
-  width: 199px;
+  width: 100%;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .profile-card-button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: #D6D6D6;
+  gap: 6px;
+  background: #E5E5E5;
   color: #406797;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 3px;
   transition: background-color 0.2s ease;
   cursor: pointer;
-
+  width: 115px;
+  height: 36px;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .profile-card-button:hover {
@@ -55,16 +96,7 @@
 }
 
 .profile-card-button-icon {
-  width: 1rem;
-  height: 1rem;
-  
-}
-.profile-card-size{
-  width: 212px;
-  height: 332px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }

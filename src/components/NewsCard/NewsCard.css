@@ -5,7 +5,7 @@
   border-radius: 0.25rem;
   border: 1px solid #e5e7eb;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); */
 }
 
 .news-card-image-active {

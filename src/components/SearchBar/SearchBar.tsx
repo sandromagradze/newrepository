@@ -14,7 +14,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <form onSubmit={handleSearch} className="search-bar-form">
+    <form onSubmit={handleSearch} className="search-bar-form  ">
       <input
         type="text"
         placeholder="ჩაწერეთ საძიებო სიტყვა"
@@ -23,7 +23,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         className="search-bar-input"
       />
 
-      <button type="submit" className="search-bar-button">
+      <button type="submit" className="search-bar-button ">
         <svg
           className="search-bar-icon"
           fill="none"

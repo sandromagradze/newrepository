@@ -83,5 +83,31 @@
       "ka": "სპორტის საერთაშორისო ფესტივალი ქალაქში იწყება — დეტალები ცნობილია",
       "en": "International sports festival begins in the city — details announced"
     }
+  },
+  {
+    "title": {
+      "ka": "სპორტის საერთაშორისო ფესტივალი ქალაქში იწყება — დეტალები ცნობილია",
+      "en": "International sports festival begins in the city — details announced"
+    },
+    "time": {
+      "ka": "-6 საათის წინ",
+      "en": "6 hours ago"
+    },
+    "image": "/kanxa.svg",
+    "preview": {
+      "ka": "სპორტის საერთაშორისო ფესტივალი ქალაქში იწყება — დეტალები ცნობილია",
+      "en": "International sports festival begins in the city — details announced"
+    }
+  },
+  {
+    "title": {
+      "ka": "საერთაშორისო კონფერენციამ რეკორდული რაოდენობის მონაწილე დააფიქსირა",
+      "en": "International conference records a record number of participants"
+    },
+    "time": {
+      "ka": "-3 საათის წინ",
+      "en": "3 hours ago"
+    },
+    "image": "/favicon.svg"
   }
 ]
