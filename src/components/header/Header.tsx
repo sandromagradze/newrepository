@@ -1,17 +1,12 @@
 import { useState } from "react";
-
 import { useTranslation } from "react-i18next";
-
 import { SUPPORTED_LANGUAGES } from "../../i18n";
-
 import CurrencyTransfer from "../currency/CurrencyTransfer";
 import LanguageChange from "../LanguageChange/LanguageChange";
-import "./Header.css" 
-
+import "./Header.css";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const currentLanguage =
@@ -26,11 +21,7 @@ export default function Header() {
   return (
     <header className="bg-white mb-2 py-4 px-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <img
-          src="/ipn.jpeg"
-          alt={t("header.logoAlt")}
-          className="h-30 w-auto"
-        />
+        <img src="/ipn.jpeg" alt={t("header.logoAlt")} className="h-30 w-auto" />
       </div>
 
       <div className="flex items-center gap-10">
@@ -43,7 +34,6 @@ export default function Header() {
             SUPPORTED_LANGUAGES={SUPPORTED_LANGUAGES}
             currentLanguage={currentLanguage}
           />
-     
         </div>
       </div>
     </header>

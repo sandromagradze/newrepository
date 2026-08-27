@@ -8,13 +8,13 @@ import HomeProfileSection from "../components/HomeProfile/HomeProfileSection";
 import HomeVideoSection from "../components/HomeVideo/HomeVideoSection";
 
 import { useHomeLogic } from "../components/HomeLogic/HomeLogic";
+import ScrollButton from "../components/ScrollButton/ScrollButton";
 
 export default function Home() {
   const {
     parentref,
     localizedHomeNews,
     localizedProfileCards,
-    localizedMiniNews,
     featuredNews,
     videos,
     visibleMiniNewsCount,
@@ -42,16 +42,17 @@ export default function Home() {
             localizedProfileCards={localizedProfileCards}
           />
 
-          <HomeVideoSection
-            videos={videos}
-            localizedMiniNews={localizedMiniNews}
-            visibleMiniNewsCount={visibleMiniNewsCount}
-            parentref={parentref}
-            hasMoreMiniNews={hasMoreMiniNews}
-            showMoreButton={showMoreButton}
-            handleLoadMoreMiniNews={handleLoadMoreMiniNews}
-            sidebarAdAlt={sidebarAdAlt}
-          />
+        <HomeVideoSection
+  videos={videos}
+  visibleMiniNewsCount={visibleMiniNewsCount}
+  parentref={parentref}
+  sidebarAdAlt={sidebarAdAlt}
+/>
+          <ScrollButton
+  hasMoreMiniNews={hasMoreMiniNews}
+  showMoreButton={showMoreButton}
+  onLoadMore={handleLoadMoreMiniNews}
+/>
         </WrapperA>
       </main>
 

@@ -8,15 +8,10 @@ interface VideoItem {
   time?: string;
 }
 
-interface MiniNewsItem {
-  title: string;
-  time: string;
-  image: string;
-}
+
 
 interface HomeVideoSectionProps {
   videos: VideoItem[];
-  localizedMiniNews: MiniNewsItem[];
   visibleMiniNewsCount: number;
   parentref: React.RefObject<HTMLDivElement | null>;
   hasMoreMiniNews: boolean;
@@ -27,13 +22,9 @@ interface HomeVideoSectionProps {
 
 export default function HomeVideoSection({
   videos,
-  localizedMiniNews,
   visibleMiniNewsCount,
   parentref,
-  hasMoreMiniNews,
-  showMoreButton,
-  handleLoadMoreMiniNews,
-  sidebarAdAlt,
+  sidebarAdAlt
 }: HomeVideoSectionProps) {
   return (
     <div className="mt-20">
@@ -54,54 +45,29 @@ export default function HomeVideoSection({
           {videos.length > 0 && <VideoCard image={videos[0].image} size="large" />}
 
           <div className="space-y-4" ref={parentref}>
-            {localizedMiniNews.slice(0, visibleMiniNewsCount).map((news, index) => (
-              <MiniNewsCard
-                key={index}
-                title={news.title}
-                time={news.time}
-                image={news.image}
-              />
+            {Array.from({ length: visibleMiniNewsCount }).map((_, index) => (
+              <MiniNewsCard key={index} />
             ))}
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            {videos.slice(1, 5).map((video, index) => (
-              <VideoCard
-                key={index + 1}
-                image={video.image}
-                size="small"
-              />
-            ))}
-          </div>
+ <div className="space-y-6">
+  <div className="grid grid-cols-2 gap-4">
+    {videos.slice(1, 5).map((video, index) => (
+      <VideoCard key={index + 1} image={video.image} size="small" />
+    ))}
+  </div>
 
-          <div>
-            <div className="self-start lg:sticky lg:top-6 flex">
-              <SecondSideCard />
-              <img
-                src="/Link.svg"
-                alt={sidebarAdAlt}
-                className="h-[503px] w-[286px]"
-              />
-            </div>
-          </div>
-        </div>
+  <div className="self-start lg:sticky lg:top-6 flex">
+    <SecondSideCard />
+    <img
+      src="/Link.svg"
+      alt={sidebarAdAlt}
+      className="h-[503px] w-[286px]"
+    />
+  </div>
+</div>
       </div>
-
-      {hasMoreMiniNews && showMoreButton && (
-        <div className="flex ml-[257px]">
-          <div
-            onClick={handleLoadMoreMiniNews}
-            className="bg-[#1E5BA6] p-[13px] mt-[30px] flex items-center cursor-pointer rounded-[3px]"
-          >
-            <h1 className="text-[14px] font-[400] text-[#FFFFFF] px-[14px] leading-[30px]">
-              დღის სხვა სიახლეები
-            </h1>
-            <img className="ml-[43px]" src="/public/arrowup.svg" alt="" />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
