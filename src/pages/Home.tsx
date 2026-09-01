@@ -28,9 +28,12 @@ export default function Home() {
     <div className="bg-[#ffffff]">
       <WrapperA>
         <Header />
-        <Navbar />
+       
       </WrapperA>
-
+      <div>
+        <Navbar />
+      </div>
+ 
       <main className="py-6">
         <WrapperA>
           <HomeHeroSection
@@ -47,6 +50,9 @@ export default function Home() {
   visibleMiniNewsCount={visibleMiniNewsCount}
   parentref={parentref}
   sidebarAdAlt={sidebarAdAlt}
+  hasMoreMiniNews={hasMoreMiniNews}
+  showMoreButton={showMoreButton}
+
 />
           <ScrollButton
   hasMoreMiniNews={hasMoreMiniNews}

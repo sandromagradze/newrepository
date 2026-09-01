@@ -16,7 +16,7 @@ interface HomeVideoSectionProps {
   parentref: React.RefObject<HTMLDivElement | null>;
   hasMoreMiniNews: boolean;
   showMoreButton: boolean;
-  handleLoadMoreMiniNews: () => void;
+  
   sidebarAdAlt: string;
 }
 
@@ -57,14 +57,16 @@ export default function HomeVideoSection({
       <VideoCard key={index + 1} image={video.image} size="small" />
     ))}
   </div>
-
-  <div className="self-start lg:sticky lg:top-6 flex">
-    <SecondSideCard />
-    <img
+  <div className="flex ">
+ <SecondSideCard />
+  <div className="self-start lg:sticky lg:top-6 ">
+   
+    <img 
       src="/Link.svg"
       alt={sidebarAdAlt}
       className="h-[503px] w-[286px]"
     />
+  </div>
   </div>
 </div>
       </div>

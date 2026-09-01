@@ -29,7 +29,7 @@ export default function SliderNews({ compact = false }: SliderNewsProps) {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [localizedNews.length]);
+  }, [localizedNews, localizedNews.length]);
 
   return (
     <div className={`slider-news-wrapper ${compact ? "slider-news-wrapper--compact" : ""}`}>
