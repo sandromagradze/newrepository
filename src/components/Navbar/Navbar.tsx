@@ -3,11 +3,27 @@ import SearchBar from "../SearchBar/SearchBar";
 import WrapperA from "../WrapperA/WrapperA";
 import "./Navbar.css";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+
+interface MenuItem {
+  alias: string;
+  is_external: boolean;
+  link: string;
+  text: string;
+}
+
+interface MenuResponse {
+  footer: Record<string, unknown>;
+  menu: MenuItem[];
+}
 
 export default function Navbar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
+  const [menu, setMenu] = useState<MenuItem[]>([]);
+
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -20,23 +36,40 @@ export default function Navbar() {
     );
 
     observer.observe(sentinel);
+
     return () => observer.disconnect();
   }, []);
 
-  const categories = [
-    "nav.region",
-    "nav.military",
-    "nav.culture",
-    "nav.announcement",
-    "nav.home",
-    "nav.politics",
-    "nav.economy",
-    "nav.society",
-    "nav.law",
-    "nav.world",
-    "nav.sport",
-    
-  ] as const;
+  useEffect(() => {
+    const lang = i18n.resolvedLanguage || "ka";
+
+    const fetchMenu = async () => {
+      try {
+        const response = await fetch(
+          `https://dev.ipn.ge/${lang}/api/menu/`,
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`Menu request failed: ${response.status}`);
+        }
+
+        const data: MenuResponse = await response.json();
+
+        
+        setMenu(data.menu.slice(1));
+      } catch (error) {
+        console.error("Failed to fetch navbar menu:", error);
+      }
+    };
+
+    fetchMenu();
+  }, [i18n.resolvedLanguage]);
 
   const handleSearch = (searchTerm: string) => {
     console.log("Search for:", searchTerm);
@@ -46,28 +79,44 @@ export default function Navbar() {
     <>
       <div ref={sentinelRef} className="h-px w-full" />
 
-      
       <nav
-        className={` bg-white text-[12px] w-full transition-shadow duration-200 ${
-          isStuck ? "shadow-md fixed top-0 z-50 " : ""
+        className={`bg-white text-[12px] w-full sticky top-0 z-50 transition-shadow duration-300 ${
+          isStuck ? "shadow-md" : "shadow-none"
         }`}
       >
-        
         <WrapperA>
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-[30px]">
-              {isStuck && (
-                <img
-                  src="/ipn.jpeg"
-                  alt={t("header.logoAlt")}
-                  className="h-10 w-auto transition-opacity duration-300"
-                />
-              )}
+              <img
+                src="/ipn.jpeg"
+                alt={t("header.logoAlt")}
+                className={`h-10 overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out ${
+                  isStuck
+                    ? "max-w-[160px] opacity-100"
+                    : "max-w-0 opacity-0"
+                }`}
+              />
 
               <ul className="flex gap-[16px] items-center list-none m-0 p-0">
-                {categories.map((key) => (
-                  <li key={key} className="navitem">
-                    {t(key)}
+                {menu.map((item) => (
+                  <li key={item.alias} className="navitem">
+                    {item.is_external ? (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-600 transition-colors"
+                      >
+                        {item.text}
+                      </a>
+                    ) : (
+                      <Link
+                        to={item.link}
+                        className="hover:text-blue-600 transition-colors"
+                      >
+                        {item.text}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

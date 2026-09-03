@@ -1,25 +1,28 @@
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        
+
         <div className="footer-left">
           <nav className="footer-nav">
-            <a href="#">მთავარი</a>
+            <a href="#">{t("footer.home")}</a>
             <span className="divider">|</span>
-            <a href="#">ჩვენს შესახებ</a>
+            <a href="#">{t("footer.about")}</a>
             <span className="divider">|</span>
-            <a href="#">სერვისები</a>
+            <a href="#">{t("footer.services")}</a>
             <span className="divider">|</span>
-            <a href="#">რეკლამა</a>
+            <a href="#">{t("footer.ads")}</a>
           </nav>
           <p className="footer-disclaimer">
-            მასალების გადაბეჭდვა/რეპროდუცირება აკრძალულია,
+            {t("footer.disclaimer")}
 
             <br />
-            იხილეთ მასალის გამოყენების პირობები
+            {t("footer.termsOfUse")}
           </p>
         </div>
 
@@ -27,7 +30,7 @@ export default function Footer() {
         <div className="footer-middle">
           <div className="contact-item">
             <span className="contact-icon">📍</span>
-            <span>თბილისი, იოსებიძის ქ. 49</span>
+            <span>{t("footer.address")}</span>
           </div>
           <div className="contact-item">
             <span className="contact-icon">📞</span>
@@ -47,7 +50,7 @@ export default function Footer() {
             </span>
           </div>
           <p className="copyright-text">
-            2018 ყველა უფლება დაცულია
+            {t("footer.copyright")}
           </p>
         </div>
       </div>

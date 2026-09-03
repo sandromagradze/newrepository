@@ -1,4 +1,6 @@
+import { useTranslation } from "react-i18next";
 import defaultSideNewsData from "../../_data/sidebarNews.json";
+import { useLocalizedData } from "../../i18n/useLocalizedData";
 import "./SideNewsCard.css";
 
 type SideNewsItem = {
@@ -10,7 +12,7 @@ type SideNewsItem = {
 };
 
 type SideNewsCardProps = {
-  items?: SideNewsItem[];
+  items?: (typeof defaultSideNewsData);
   visibleCount?: number;
   hasMore?: boolean;
 };
@@ -20,13 +22,16 @@ export default function SideNewsCard({
   visibleCount = 4,
   hasMore = false,
 }: SideNewsCardProps) {
+  const { t } = useTranslation();
+  const localizedItems = useLocalizedData(items) as SideNewsItem[];
+
   return (
     <aside className="side-news-card ">
 
       
 
       <div className="side-news-list">
-        {items.slice(0, visibleCount).map((item) => (
+        {localizedItems.slice(0, visibleCount).map((item) => (
           <div key={item.id} className="side-news-item">
             <div className="side-news-meta">
 
@@ -39,7 +44,7 @@ export default function SideNewsCard({
 
             <h3 className="side-news-item-title">{item.title}</h3>
              <div className="side-news-link-wrap">
-              <p className="side-news-link">ყველა სიახლე ▶</p>
+              <p className="side-news-link">{t("common.viewAll")} ▶</p>
             </div>
           </div>
         ))}
@@ -49,7 +54,7 @@ export default function SideNewsCard({
         <div
           className="bg-[#1E5BA6] p-[13px] flex items-center justify-center cursor-pointer gap-[10px] rounded-[3px] w-full"
         >
-          <h1 className="text-[14px] font-[400] text-[#FFFFFF] px-[14px] leading-[30px]">მეტის ჩვენება</h1>
+          <h1 className="text-[14px] font-[400] text-[#FFFFFF] px-[14px] leading-[30px]">{t("sideNews.showMore")}</h1>
           <img className="ml-[10px]" src="/arrowup.svg" alt="" />
         </div>
       )}

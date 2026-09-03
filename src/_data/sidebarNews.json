@@ -1,60 +1,82 @@
 [
   {
     "id": 1,
-    "time": "17:15 / 05.08",
-    "title": "ნიკოლოზ ვაშაკიძე - სომხეთისთვის საქართველოსთან საზღვრის გახსნა მნიშვნელოვანია...",
-    "category": "ეკონომიკა",
+    "time": { "ka": "17:15 / 05.08", "en": "17:15 / 08.05" },
+    "title": {
+      "ka": "ნიკოლოზ ვაშაკიძე - სომხეთისთვის საქართველოსთან საზღვრის გახსნა მნიშვნელოვანია...",
+      "en": "Nikoloz Vashakidze - opening the border with Georgia is important for Armenia..."
+    },
+    "category": { "ka": "ეკონომიკა", "en": "Economy" },
     "image": "/mtavarigasageblebi.svg"
   },
   {
     "id": 2,
-    "time": "17:10 / 05.08",
-    "title": "ინფლაციის მაჩვენებელი იმპორტირებულ საქონელზე შემცირდა...",
-    "category": "ეკონომიკა",
+    "time": { "ka": "17:10 / 05.08", "en": "17:10 / 08.05" },
+    "title": {
+      "ka": "ინფლაციის მაჩვენებელი იმპორტირებულ საქონელზე შემცირდა...",
+      "en": "Inflation rate on imported goods has decreased..."
+    },
+    "category": { "ka": "ეკონომიკა", "en": "Economy" },
     "image": "/vashakidze.svg"
   },
   {
     "id": 3,
-    "time": "17:00 / 05.08",
-    "title": "გარემოსდაცვითი ზედამხედველობის დეპარტამენტმა უკანონო ხე-ტყე გამოავლინა...",
-    "category": "საზოგადოება",
+    "time": { "ka": "17:00 / 05.08", "en": "17:00 / 08.05" },
+    "title": {
+      "ka": "გარემოსდაცვითი ზედამხედველობის დეპარტამენტმა უკანონო ხე-ტყე გამოავლინა...",
+      "en": "Environmental Supervision Department uncovers illegal logging..."
+    },
+    "category": { "ka": "საზოგადოება", "en": "Society" },
     "image": "/mamarda.svg"
   },
   {
     "id": 4,
-    "time": "16:45 / 05.08",
-    "title": "საქართველოს ეროვნულმა ბანკმა სავალუტო აუქციონი ჩაატარა...",
-    "category": "ეკონომიკა",
+    "time": { "ka": "16:45 / 05.08", "en": "16:45 / 08.05" },
+    "title": {
+      "ka": "საქართველოს ეროვნულმა ბანკმა სავალუტო აუქციონი ჩაატარა...",
+      "en": "National Bank of Georgia held a currency auction..."
+    },
+    "category": { "ka": "ეკონომიკა", "en": "Economy" },
     "image": "/kiorlingi.svg"
   },
   {
     "id": 5,
-    "time":"2-წუთის წინ",
-    "title":"ხაჩო გინდახარჩო",
-    "category": "ეკონომიკა",
+    "time": { "ka": "2-წუთის წინ", "en": "2 minutes ago" },
+    "title": {
+      "ka": "ხაჩო გინდახარჩო",
+      "en": "Khacho Gindakharcho"
+    },
+    "category": { "ka": "ეკონომიკა", "en": "Economy" },
     "image": "/kiorlingi.svg"
   },
   {
     "id": 6,
-    "time":"2-წუთის წინ",
-    "title":"თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
-    "category": "",
-    "image": "/targmneDoc.svg"
-  },{
-    "id": 6,
-    "time":"2-წუთის წინ",
-    "title":"თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
-    "category": "",
+    "time": { "ka": "2-წუთის წინ", "en": "2 minutes ago" },
+    "title": {
+      "ka": "თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
+      "en": "Translate a document and get it notarized without leaving home"
+    },
+    "category": { "ka": "", "en": "" },
     "image": "/targmneDoc.svg"
   },
   {
-    "id": 6,
-    "time":"2-წუთის წინ",
-    "title":"თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
-    "category": "",
+    "id": 7,
+    "time": { "ka": "2-წუთის წინ", "en": "2 minutes ago" },
+    "title": {
+      "ka": "თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
+      "en": "Translate a document and get it notarized without leaving home"
+    },
+    "category": { "ka": "", "en": "" },
+    "image": "/targmneDoc.svg"
+  },
+  {
+    "id": 8,
+    "time": { "ka": "2-წუთის წინ", "en": "2 minutes ago" },
+    "title": {
+      "ka": "თარგმნეთ დოკუმენტი და დაამოწმეთ ნოტარიულად,სახლიდან გაუსვლელად",
+      "en": "Translate a document and get it notarized without leaving home"
+    },
+    "category": { "ka": "", "en": "" },
     "image": "/targmneDoc.svg"
   }
-  
-  
-
 ]

@@ -8,6 +8,10 @@
   },
   "nav": {
     "home": "მთავარი",
+    "region": "რეგიონი",
+    "military": "არმია",
+    "culture": "კულტურა",
+    "announcement": "განცხადება",
     "politics": "პოლიტიკა",
     "economy": "ეკონომიკა",
     "society": "საზოგადოება",
@@ -19,6 +23,41 @@
     "learnMore": "გაიგე მეტი",
     "newsAlt": "სიახლე",
     "videoAlt": "ვიდეო",
-    "sidebarAdAlt": "რეკლама"
+    "sidebarAdAlt": "რეკლამა",
+    "loading": "იტვირთება...",
+    "viewAll": "ყველა სიახლე"
+  },
+  "search": {
+    "placeholder": "ჩაწერეთ საძიებო სიტყვა"
+  },
+  "footer": {
+    "home": "მთავარი",
+    "about": "ჩვენს შესახებ",
+    "services": "სერვისები",
+    "ads": "რეკლამა",
+    "disclaimer": "მასალების გადაბეჭდვა/რეპროდუცირება აკრძალულია,",
+    "termsOfUse": "იხილეთ მასალის გამოყენების პირობები",
+    "address": "თბილისი, იოსებიძის ქ. 49",
+    "copyright": "2018 ყველა უფლება დაცულია"
+  },
+  "homeVideo": {
+    "heading": "ბოლო საინფორმაციო გამოშვება",
+    "tvBanner": "ახალი ამბების ტელევიზია"
+  },
+  "homeProfile": {
+    "viewAll": "სრულად"
+  },
+  "scrollButton": {
+    "loadMore": "დღის სხვა სიახლეები"
+  },
+  "sideNews": {
+    "latestToday": "დღის ბოლო სიახლეები",
+    "showMore": "მეტის ჩვენება"
+  },
+  "secondSlider": {
+    "heading": "ბიზნესისა და ეკონომიკის სიახლეები"
+  },
+  "currency": {
+    "title": "ვალუტის კურსი"
   }
 }

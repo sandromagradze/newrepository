@@ -8,6 +8,10 @@
   },
   "nav": {
     "home": "Home",
+    "region": "Region",
+    "military": "Military",
+    "culture": "Culture",
+    "announcement": "Announcement",
     "politics": "Politics",
     "economy": "Economy",
     "society": "Society",
@@ -19,6 +23,41 @@
     "learnMore": "Learn more",
     "newsAlt": "News",
     "videoAlt": "Video",
-    "sidebarAdAlt": "Advertisement"
+    "sidebarAdAlt": "Advertisement",
+    "loading": "Loading...",
+    "viewAll": "All news"
+  },
+  "search": {
+    "placeholder": "Enter search term"
+  },
+  "footer": {
+    "home": "Home",
+    "about": "About us",
+    "services": "Services",
+    "ads": "Advertising",
+    "disclaimer": "Reprinting/reproduction of materials is prohibited,",
+    "termsOfUse": "see the terms of use of the material",
+    "address": "49 Iosebidze St, Tbilisi",
+    "copyright": "2018 All rights reserved"
+  },
+  "homeVideo": {
+    "heading": "Latest news broadcast",
+    "tvBanner": "News television"
+  },
+  "homeProfile": {
+    "viewAll": "View all"
+  },
+  "scrollButton": {
+    "loadMore": "More news of the day"
+  },
+  "sideNews": {
+    "latestToday": "Latest news today",
+    "showMore": "Show more"
+  },
+  "secondSlider": {
+    "heading": "Business and economy news"
+  },
+  "currency": {
+    "title": "Exchange rate"
   }
 }

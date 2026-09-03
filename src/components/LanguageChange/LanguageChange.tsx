@@ -1,6 +1,7 @@
-import i18n, { SUPPORTED_LANGUAGES as SUPPORTED_LANGUAGES_LIST } from "../../i18n";
+import i18n, {
+  SUPPORTED_LANGUAGES as SUPPORTED_LANGUAGES_LIST,
+} from "../../i18n";
 import { useTranslation } from "react-i18next";
-import "./LanguageChange.css";
 
 interface LanguageChangeProps {
   setIsOpen: (isOpen: boolean) => void;
@@ -20,17 +21,31 @@ export default function LanguageChange({
   const { t } = useTranslation();
 
   return (
-    <div className="language-change-container">
+    <div className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="language-change-button"
+        className="inline-flex items-center justify-between gap-1 px-3 py-1.5 text-xs font-semibold
+         tracking-wider text-slate-700 "
       >
-        {currentLabel ? t(currentLabel) : "GEO"}
-        <span className="language-change-arrow">▼</span>
+        <span>{currentLabel ? t(currentLabel) : "GEO"}</span>
+        <svg
+          className={`w-3 h-3 text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2.5"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
       </button>
 
       {isOpen && (
-        <div className="language-change-menu">
+        <div className="absolute right-0 mt-1.5 w-24 bg-white border border-slate-200 
+        rounded-xl shadow-xl z-50 ">
           {SUPPORTED_LANGUAGES.map(({ code, labelKey }) => (
             <button
               key={code}
@@ -38,23 +53,20 @@ export default function LanguageChange({
                 void i18n.changeLanguage(code);
                 setIsOpen(false);
               }}
-              className={`language-change-item ${
-                code === currentLanguage ? "language-change-item-active" : ""
+              className={`w-full text-left px-3.5 py-1.5 text-xs font-medium transition-colors flex items-center justify-between ${
+                code === currentLanguage
+                  ? "bg-blue-50 text-blue-600 font-semibold"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}
             >
-              {t(labelKey)}
+              <span>{t(labelKey)}</span>
+              {code === currentLanguage && (
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+              )}
             </button>
           ))}
         </div>
       )}
-
-      <div className="language-change-meta">
-        <p>ორშ/6აპრ/26</p>
-        <p>08:36:21</p>
-      </div>
-      <div className="language-change-weather">
-        <p>ამინდი/AMINDI.GE</p>
-      </div>
     </div>
   );
 }

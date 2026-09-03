@@ -1,34 +1,56 @@
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import ProfileCard from "../ProfileCard/ProfileCard";
 
 interface ProfileItem {
-  image: string;
-  name: string;
-  status: string;
+  id: number | string;
+  alias?: string;
+  title: string;
+  position: string;
+image?: {
+    original?: string;
+    position?: number[];
+  } | string;
+  images?: {
+    "176x176"?: string | null;
+    "198x198"?: string | null;
+  };
+  status?: string;
 }
 
 interface HomeProfileSectionProps {
   localizedProfileCards: ProfileItem[];
+  totalCount?: number;
 }
 
-export default function HomeProfileSection({ localizedProfileCards }: HomeProfileSectionProps) {
+export default function HomeProfileSection({
+  localizedProfileCards,
+  totalCount = 212,
+}: HomeProfileSectionProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-8">
-      {localizedProfileCards.map((profile, index) => (
+      {localizedProfileCards.map((profile) => (
         <ProfileCard
-          key={index}
+          key={profile.id}
+          id={profile.id}
           image={profile.image}
-          name={profile.name}
-          status={profile.status}
+          title={profile.title}
+          position={profile.position}
         />
-      ))}
+      ) )}
 
-      <div className="bg-[#1E5BA6] rounded-[3px] p-6 flex flex-col justify-center text-center text-white h-[332px] cursor-pointer hover:bg-[#184a87] transition-colors box-border">
-        <div className="text-[62px] justify-center font-bold">212</div>
+      <Link
+        to="/profile"
+        className="bg-[#1E5BA6] rounded-[3px] p-6 flex flex-col justify-center text-center text-white h-[332px] cursor-pointer hover:bg-[#184a87] transition-colors box-border no-underline"
+      >
+        <div className="text-[62px] justify-center font-bold">{totalCount}</div>
         <div className="flex items-center justify-center text-center text-[18px] font-medium">
-          <span>სრულად</span>
+          <span>{t("homeProfile.viewAll")}</span>
         </div>
         <span className="text-[50px]">→</span>
-      </div>
+      </Link>
     </div>
   );
 }

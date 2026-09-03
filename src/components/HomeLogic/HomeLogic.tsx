@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useLocalizedData } from "../../i18n/useLocalizedData";
 
 import miniNews from "../../_data/miniNews.json";
-import profileCards from "../../_data/profileCards.json";
 import videos from "../../_data/videos.json";
 import homeNews from "../../_data/homeNews.json";
 
@@ -11,19 +10,56 @@ const MINI_NEWS_PAGE_SIZE = 4;
 
 export function useHomeLogic() {
   const parentref = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const localizedHomeNews = useLocalizedData(homeNews);
-  const localizedProfileCards = useLocalizedData(profileCards);
   const localizedMiniNews = useLocalizedData(miniNews);
   const featuredNews = localizedHomeNews[0];
+
+  const [apiProfiles, setApiProfiles] = useState([]);
+  const lang_code = i18n.resolvedLanguage || "ka";
+
+useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        const response = await fetch(
+          `https://dev.ipn.ge/${lang_code}/api/profiles/`,
+          {
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({ page: "1" }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // Swagger-ის სტრუქტურის მიხედვით, პროფილები არის data.profiles მასივში
+        const profileList = data.profiles || [];
+        setApiProfiles(profileList);
+      } catch (err) {
+        console.error("Failed to fetch profiles:", err);
+      }
+    };
+
+    fetchProfiles();
+  }, [lang_code]);
+
+
+
+  const localizedProfileCards = apiProfiles.slice(0, 4);
+  
 
   const [visibleMiniNewsCount, setVisibleMiniNewsCount] = useState(MINI_NEWS_PAGE_SIZE);
   const [showMoreButton, setShowMoreButton] = useState(true);
 
   const hasMoreMiniNews = visibleMiniNewsCount < localizedMiniNews.length;
 
-  // Button click handler: loads 4 more and hides the button
   const handleLoadMoreMiniNews = () => {
     setShowMoreButton(false);
     setVisibleMiniNewsCount((prev) =>
@@ -31,16 +67,13 @@ export function useHomeLogic() {
     );
   };
 
-  // Infinite scroll listener tied to when the user scrolls past the container
   useEffect(() => {
-    // If the button is still showing, we don't want infinite scroll to take over yet
     if (showMoreButton) return;
 
     const handleScroll = () => {
       if (!parentref.current) return;
-      
+
       const rect = parentref.current.getBoundingClientRect();
-      // Trigger when the bottom of the container comes into view or passes the viewport
       const isBottomReached = rect.bottom <= window.innerHeight + 200;
 
       if (isBottomReached) {

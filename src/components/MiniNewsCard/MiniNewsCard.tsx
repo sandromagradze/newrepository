@@ -26,7 +26,7 @@ export default function MiniNewsCard() {
   }, []);
 
   if (!news) {
-    return <div className="mini-news-card loading">იტვირთება...</div>;
+    return <div className="mini-news-card loading">{t("common.loading")}</div>;
   }
 
   return (

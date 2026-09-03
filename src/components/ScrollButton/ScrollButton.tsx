@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface ScrollButtonProps {
   hasMoreMiniNews: boolean;
   showMoreButton: boolean;
@@ -9,6 +11,8 @@ export default function ScrollButton({
   showMoreButton,
   onLoadMore,
 }: ScrollButtonProps) {
+  const { t } = useTranslation();
+
   if (!hasMoreMiniNews || !showMoreButton) return null;
 
   return (
@@ -18,7 +22,7 @@ export default function ScrollButton({
         className="bg-[#1E5BA6] p-[13px] mt-[30px] flex items-center cursor-pointer rounded-[3px]"
       >
         <h1 className="text-[14px] font-[400] text-[#FFFFFF] px-[14px] leading-[30px]">
-          დღის სხვა სიახლეები
+          {t("scrollButton.loadMore")}
         </h1>
         <img className="ml-[43px]" src="/public/arrowup.svg" alt="" />
       </div>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import newsData from "../../_data/secondNews.json";
 import { useLocalizedData } from "../../i18n/useLocalizedData";
 import "./SecongSlider.css";
 
 export default function SecondSlider() {
+  const { t } = useTranslation();
   const localizedNews = useLocalizedData(newsData);
   const [activeIndex, setActiveIndex] = useState(0);
   const current = localizedNews[activeIndex];
@@ -33,7 +35,7 @@ export default function SecondSlider() {
       <div className="bpn-style">
         <img src="/bpn.svg" alt="bpn logo" />
         <div className="h1-div">
-          <h1 className="bpn-h1">ბიზნესისა და ეკონომიკის სიახლეები</h1>
+          <h1 className="bpn-h1">{t("secondSlider.heading")}</h1>
         </div>
       </div>
 

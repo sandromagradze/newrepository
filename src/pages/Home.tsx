@@ -1,12 +1,7 @@
-import Header from "../components/header/Header";
-import Navbar from "../components/Navbar/Navbar";
 import WrapperA from "../components/WrapperA/WrapperA";
-import Footer from "../components/Footer/Footer";
-
 import HomeHeroSection from "../components/HOME/HomeHeroSection";
 import HomeProfileSection from "../components/HomeProfile/HomeProfileSection";
 import HomeVideoSection from "../components/HomeVideo/HomeVideoSection";
-
 import { useHomeLogic } from "../components/HomeLogic/HomeLogic";
 import ScrollButton from "../components/ScrollButton/ScrollButton";
 
@@ -26,14 +21,6 @@ export default function Home() {
 
   return (
     <div className="bg-[#ffffff]">
-      <WrapperA>
-        <Header />
-       
-      </WrapperA>
-      <div>
-        <Navbar />
-      </div>
- 
       <main className="py-6">
         <WrapperA>
           <HomeHeroSection
@@ -45,24 +32,22 @@ export default function Home() {
             localizedProfileCards={localizedProfileCards}
           />
 
-        <HomeVideoSection
-  videos={videos}
-  visibleMiniNewsCount={visibleMiniNewsCount}
-  parentref={parentref}
-  sidebarAdAlt={sidebarAdAlt}
-  hasMoreMiniNews={hasMoreMiniNews}
-  showMoreButton={showMoreButton}
+          <HomeVideoSection
+            videos={videos}
+            visibleMiniNewsCount={visibleMiniNewsCount}
+            parentref={parentref}
+            sidebarAdAlt={sidebarAdAlt}
+            hasMoreMiniNews={hasMoreMiniNews}
+            showMoreButton={showMoreButton}
+          />
 
-/>
           <ScrollButton
-  hasMoreMiniNews={hasMoreMiniNews}
-  showMoreButton={showMoreButton}
-  onLoadMore={handleLoadMoreMiniNews}
-/>
+            hasMoreMiniNews={hasMoreMiniNews}
+            showMoreButton={showMoreButton}
+            onLoadMore={handleLoadMoreMiniNews}
+          />
         </WrapperA>
       </main>
-
-      <Footer />
     </div>
   );
 }

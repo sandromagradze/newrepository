@@ -1,8 +1,10 @@
+// import { useTranslation } from "react-i18next";
 import SliderNews from "../SliderNews/SliderNews";
 import MainCard from "../maincard/MainCard"
 import NewsCard from "../NewsCard/NewsCard";
 import SecondSlider from "../SecondSlider/SecondSlider";
 import SideNewsCard from "../SideNewsCard/SideNewsCard";
+import SideBarAd from "../Ads/SideBarAd";
 
 interface NewsItem {
   title: string;
@@ -17,12 +19,13 @@ interface HomeHeroSectionProps {
 }
 
 export default function HomeHeroSection({ featuredNews, localizedHomeNews }: HomeHeroSectionProps) {
+  // const { t } = useTranslation();
   const gridNews = localizedHomeNews.slice(1);
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_290px_286px]">
       <section className="space-y-6">
-        <SliderNews />
+        <SliderNews/>
 
         {featuredNews && (
           <div className="lg:hidden">
@@ -53,13 +56,7 @@ export default function HomeHeroSection({ featuredNews, localizedHomeNews }: Hom
         <SideNewsCard />
       </aside>
 
-      <div className="self-start lg:sticky lg:top-6">
-        <img
-          src="/Link.svg"
-          alt="Sidebar Advertisement"
-          className="h-[503px] w-[286px]"
-        />
-      </div>
+     <SideBarAd adIndex={0}/>
     </div>
   );
 }

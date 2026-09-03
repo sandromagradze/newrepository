@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./SearchBar.css";
 
 interface SearchBarProps {
@@ -6,6 +7,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +19,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     <form onSubmit={handleSearch} className="search-bar-form  ">
       <input
         type="text"
-        placeholder="ჩაწერეთ საძიებო სიტყვა"
+        placeholder={t("search.placeholder")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="search-bar-input"
