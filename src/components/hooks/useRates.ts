@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   getRates,
   type CurrencyResponse,
-} from "../api/ratesApi";
+} from "../currency/ratesApi";
 
 export default function useRates() {
   const { i18n } = useTranslation();

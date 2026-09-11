@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { fetchMenu } from "../api/menuApi";
+import { fetchMenu } from "../Navbar/menuApi";
 
 export function useMenu() {
   const { i18n } = useTranslation();

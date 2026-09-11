@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import type { NewsItem } from "../HomeVideo/HomeVideoSection";
+import type { NewsItem } from "./latestNewsCardApi";
 
 import "./MiniNewsCard.css";
 
@@ -13,11 +13,11 @@ export default function MiniNewsCard({
 }: MiniNewsCardProps) {
   const { t, i18n } = useTranslation();
 
-  const langcode =
+  const langCode =
     i18n.resolvedLanguage?.split("-")[0] || "ka";
 
   const getImageUrl = (
-    image: NewsItem["image"],
+    image: NewsItem["image"]
   ): string | null => {
     if (!image?.original) {
       return null;
@@ -32,16 +32,13 @@ export default function MiniNewsCard({
       return src;
     }
 
-    return `https://dev.ipn.ge/${src.replace(
-      /^\/+/,
-      "",
-    )}`;
+    return `https://dev.ipn.ge/${src.replace(/^\/+/, "")}`;
   };
 
   const imageUrl = getImageUrl(news.image);
 
   const articleUrl =
-    `https://dev.ipn.ge/${langcode}${news.url}`;
+    `https://dev.ipn.ge/${langCode}${news.url}`;
 
   return (
     <a
@@ -50,7 +47,6 @@ export default function MiniNewsCard({
     >
       <div className="mini-news-card-inner">
 
-        {/* IMAGE */}
         <div className="image-width">
           {imageUrl ? (
             <img
@@ -58,10 +54,7 @@ export default function MiniNewsCard({
               alt={news.title}
               className="mini-news-card-image"
               onError={(event) => {
-                
-
-                event.currentTarget.style.display =
-                  "none";
+                event.currentTarget.style.display = "none";
               }}
             />
           ) : (
@@ -71,7 +64,6 @@ export default function MiniNewsCard({
           )}
         </div>
 
-        {/* CONTENT */}
         <div className="mini-news-card-content">
 
           <span className="mini-news-card-time">
@@ -83,6 +75,7 @@ export default function MiniNewsCard({
           </h3>
 
         </div>
+
       </div>
     </a>
   );
