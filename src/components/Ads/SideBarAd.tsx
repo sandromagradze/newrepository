@@ -1,170 +1,275 @@
 import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
 
-const API_BASE = "https://dev.ipn.ge";
-
-interface AdItem {
-  html: string;
-  position: string;
-}
-
-interface AdsResponse {
-  ads?: AdItem[];
-}
+import useAds from "../hooks/useAds";
 
 interface SideBarAdProps {
   position: string;
   className?: string;
 }
 
-function loadHtmlWithScripts(
-  html: string,
-  container: HTMLElement
+declare global {
+  interface Window {
+    ado?: unknown;
+  }
+}
+
+
+function waitForAdo(
+  timeout = 15000
 ): Promise<void> {
   return new Promise((resolve) => {
-    if (!html) {
+    if (window.ado) {
       resolve();
       return;
     }
 
-    const temp = document.createElement("div");
-    temp.innerHTML = html;
+    const startTime = Date.now();
 
-    const nodes = Array.from(temp.childNodes);
-
-    async function execute() {
-      for (const node of nodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE) {
-          continue;
-        }
-
-        const element = node as HTMLElement;
-
-       
-        if (element.tagName.toLowerCase() !== "script") {
-          container.appendChild(element.cloneNode(true));
-          continue;
-        }
-
-        const oldScript = element as HTMLScriptElement;
-        const script = document.createElement("script");
-
-       
-        Array.from(oldScript.attributes).forEach((attribute) => {
-          script.setAttribute(
-            attribute.name,
-            attribute.value
-          );
-        });
-
-       
-        if (oldScript.src) {
-          await new Promise<void>((scriptResolve) => {
-            script.onload = () => {
-              
-
-              scriptResolve();
-            };
-
-            script.onerror = () => {
-              
-
-              scriptResolve();
-            };
-
-           
-            script.src = oldScript.src.startsWith("//")
-              ? `https:${oldScript.src}`
-              : oldScript.src;
-
-            container.appendChild(script);
-          });
-
-          continue;
-        }
-
-       
-        script.textContent =
-          oldScript.textContent || "";
-
-        container.appendChild(script);
+    const check = () => {
+      if (window.ado) {
+        resolve();
+        return;
       }
 
-      resolve();
+      if (Date.now() - startTime >= timeout) {
+        console.warn(
+          "[SideBarAd] AdOcean was not initialized within timeout"
+        );
+
+        resolve();
+        return;
+      }
+
+      window.setTimeout(check, 100);
+    };
+
+    check();
+  });
+}
+
+
+function scriptUsesAdo(
+  script: HTMLScriptElement
+): boolean {
+  const text = script.textContent || "";
+
+  const src = script.getAttribute("src") || "";
+
+  return (
+    text.includes("ado.") ||
+    text.includes("ado(") ||
+    text.includes("ado_") ||
+    src.includes("adocean")
+  );
+}
+
+
+async function loadHtmlWithScripts(
+  html: string,
+  container: HTMLElement
+): Promise<void> {
+  if (!html) {
+    return;
+  }
+
+  const temp = document.createElement("div");
+
+  temp.innerHTML = html;
+
+  const nodes = Array.from(temp.childNodes);
+
+  for (const node of nodes) {
+    if (node.nodeType !== Node.ELEMENT_NODE) {
+      continue;
     }
 
-    execute();
-  });
+    const element = node as HTMLElement;
+
+  
+    if (
+      element.tagName.toLowerCase() !== "script"
+    ) {
+      const clonedElement =
+        element.cloneNode(true) as HTMLElement;
+
+    
+      const nestedScripts =
+        Array.from(
+          clonedElement.querySelectorAll("script")
+        );
+
+      if (nestedScripts.length === 0) {
+        container.appendChild(clonedElement);
+        continue;
+      }
+
+    
+      const scriptData = nestedScripts.map(
+        (oldScript) => {
+          const parent = oldScript.parentNode;
+
+          if (parent) {
+            parent.removeChild(oldScript);
+          }
+
+          return {
+            oldScript,
+            parent,
+          };
+        }
+      );
+
+      container.appendChild(clonedElement);
+
+     
+      for (const { oldScript, parent } of scriptData) {
+        if (!parent) {
+          continue;
+        }
+
+        await executeScript(
+          oldScript,
+          parent as HTMLElement
+        );
+      }
+
+      continue;
+    }
+
+    await executeScript(
+      element as HTMLScriptElement,
+      container
+    );
+  }
+}
+
+
+async function executeScript(
+  oldScript: HTMLScriptElement,
+  container: HTMLElement
+): Promise<void> {
+  
+  if (scriptUsesAdo(oldScript)) {
+    await waitForAdo();
+  }
+
+  const script =
+    document.createElement("script");
+
+  
+  Array.from(oldScript.attributes).forEach(
+    (attribute) => {
+      script.setAttribute(
+        attribute.name,
+        attribute.value
+      );
+    }
+  );
+
+ 
+  if (oldScript.src) {
+    await new Promise<void>((resolve) => {
+      let resolved = false;
+
+      const finish = () => {
+        if (resolved) {
+          return;
+        }
+
+        resolved = true;
+        resolve();
+      };
+
+      script.onload = () => {
+        finish();
+      };
+
+      script.onerror = () => {
+        console.error(
+          "[SideBarAd] Failed to load script:",
+          script.src
+        );
+
+        finish();
+      };
+
+      const src = oldScript.src;
+
+      script.src = src.startsWith("//")
+        ? `https:${src}`
+        : src;
+
+      container.appendChild(script);
+    });
+
+    return;
+  }
+
+ 
+  script.textContent =
+    oldScript.textContent || "";
+
+  container.appendChild(script);
 }
 
 export default function SideBarAd({
   position,
   className = "",
 }: SideBarAdProps) {
-  const { i18n } = useTranslation();
-
   const containerRef =
     useRef<HTMLDivElement>(null);
 
-  const langCode =
-    i18n.resolvedLanguage?.split("-")[0] || "ka";
+  const {
+    data: ads = [],
+    isLoading,
+    isError,
+  } = useAds();
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadAd() {
+    async function renderAd() {
+      const container =
+        containerRef.current;
+
+      if (!container) {
+        return;
+      }
+
+    
+      container.innerHTML = "";
+
+      if (isLoading) {
+        return;
+      }
+
+      if (isError) {
+        console.error(
+          `[SideBarAd] Failed to load ads for position "${position}"`
+        );
+
+        return;
+      }
+
+    
+      const ad = ads.find(
+        (item) =>
+          item.position === position
+      );
+
+      if (!ad?.html) {
+        console.warn(
+          `[SideBarAd] No ad found for position "${position}"`
+        );
+
+        return;
+      }
+
+      if (cancelled) {
+        return;
+      }
+
       try {
-       
-
-        const response = await fetch(
-          `${API_BASE}/${langCode}/api/ads/`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Ads request failed: ${response.status}`
-          );
-        }
-
-        const data: AdsResponse =
-          await response.json();
-
-       
-
-        if (cancelled) {
-          return;
-        }
-
-        const ad = data.ads?.find(
-          (item) =>
-            item.position === position
-        );
-
-       
-
-        if (!ad?.html) {
-          console.warn(
-            `[SideBarAd] No ad found for position "${position}"`
-          );
-
-          return;
-        }
-
-        const container =
-          containerRef.current;
-
-        if (!container) {
-          return;
-        }
-
-        container.innerHTML = "";
-
         await loadHtmlWithScripts(
           ad.html,
           container
@@ -174,18 +279,18 @@ export default function SideBarAd({
           return;
         }
 
-      
+       
       } catch (error) {
         if (!cancelled) {
           console.error(
-            "[SideBarAd] Failed to load advertisement:",
+            `[SideBarAd] Failed to render position "${position}":`,
             error
           );
         }
       }
     }
 
-    loadAd();
+    renderAd();
 
     return () => {
       cancelled = true;
@@ -194,7 +299,12 @@ export default function SideBarAd({
         containerRef.current.innerHTML = "";
       }
     };
-  }, [langCode, position]);
+  }, [
+    ads,
+    isLoading,
+    isError,
+    position,
+  ]);
 
   return (
     <div className={className}>
