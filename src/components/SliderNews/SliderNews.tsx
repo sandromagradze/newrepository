@@ -20,7 +20,7 @@ interface Article {
   video: string | null;
   show_ns: boolean;
   gallery: unknown;
-  slider: string;
+  slider: string | null;
   url: string;
   pub_dt: string;
 }
@@ -43,7 +43,8 @@ export default function SliderNews({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const langCode = i18n.resolvedLanguage || "ka";
+  const langCode =
+    i18n.resolvedLanguage?.split("-")[0] || "ka";
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -51,10 +52,9 @@ export default function SliderNews({
         setLoading(true);
         setError(null);
 
-        const url = `https://dev.ipn.ge/${langCode}/api/slider/`;
+        const apiUrl = `https://dev.ipn.ge/${langCode}/api/slider/`;
 
-
-        const response = await fetch(url, {
+        const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
             accept: "application/json",
@@ -63,26 +63,28 @@ export default function SliderNews({
           body: "loaded=0",
         });
 
-
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.status}`);
         }
 
         const data: SliderResponse = await response.json();
 
- 
-        const topBigArticles = (data.top_big || []).slice(0, 19);
-
+        const topBigArticles = (data.top_big || [])
+          .filter((article): article is Article => article !== null)
+          .slice(0, 19);
 
         setArticles(topBigArticles);
         setActiveIndex(0);
       } catch (error) {
-        console.error("Failed to fetch slider articles:", error);
+        console.error(
+          "Failed to fetch slider articles:",
+          error,
+        );
 
         setError(
           error instanceof Error
             ? error.message
-            : "Failed to fetch slider articles"
+            : "Failed to fetch slider articles",
         );
 
         setArticles([]);
@@ -96,13 +98,13 @@ export default function SliderNews({
 
   const handlePrev = () => {
     setActiveIndex((prev) =>
-      prev === 0 ? articles.length - 1 : prev - 1
+      prev === 0 ? articles.length - 1 : prev - 1,
     );
   };
 
   const handleNext = () => {
     setActiveIndex((prev) =>
-      prev === articles.length - 1 ? 0 : prev + 1
+      prev === articles.length - 1 ? 0 : prev + 1,
     );
   };
 
@@ -144,11 +146,52 @@ export default function SliderNews({
 
   const current = articles[activeIndex];
 
-  const imageUrl = current.image?.webp
-    ? `https://dev.ipn.ge${current.image.webp}`
-    : current.image?.original
-      ? `https://dev.ipn.ge${current.image.original}`
-      : "";
+  /*
+   * Converts API image path into a usable URL.
+   *
+   * Possible API values:
+   *
+   * uploads/2026/08-12/capture.jpg
+   * gallery/2026/08-20/image.jpg
+   * https://dev.ipn.ge/...
+   */
+  const getImageUrl = (
+    image: ArticleImage | null,
+  ): string => {
+    if (!image) {
+      return "";
+    }
+
+    const src =
+      image.webp?.trim() ||
+      image.original?.trim() ||
+      "";
+
+    if (!src) {
+      return "";
+    }
+
+    
+    if (
+      src.startsWith("http://") ||
+      src.startsWith("https://")
+    ) {
+      return src;
+    }
+
+   
+    return `https://dev.ipn.ge/${src.replace(/^\/+/, "")}`;
+  };
+
+  const imageUrl = getImageUrl(current.image);
+
+  
+   
+  const articleUrl = current.url
+    ? `https://dev.ipn.ge/${langCode}${current.url}`
+    : "https://dev.ipn.ge/";
+
+  
 
   return (
     <div
@@ -161,6 +204,7 @@ export default function SliderNews({
         time={current.publish_up}
         image={imageUrl}
         compact={compact}
+        url={articleUrl}
       />
 
       <div className="slider-pagination-wrapper">
@@ -169,7 +213,10 @@ export default function SliderNews({
           onClick={handlePrev}
           aria-label="Previous article"
         >
-          <img src="/arrowleft.svg" alt="Previous" />
+          <img
+            src="/arrowleft.svg"
+            alt="Previous"
+          />
         </button>
 
         <div className="slider-news-dots">
@@ -195,7 +242,10 @@ export default function SliderNews({
           onClick={handleNext}
           aria-label="Next article"
         >
-          <img src="/arrowright.svg" alt="Next" />
+          <img
+            src="/arrowright.svg"
+            alt="Next"
+          />
         </button>
       </div>
     </div>

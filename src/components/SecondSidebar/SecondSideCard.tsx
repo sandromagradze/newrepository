@@ -10,9 +10,7 @@ export default function SideNewsCard() {
   return (
     <aside className="side-news-card ">
 
-      <div className="side-news-header">
-        <h2 className="side-news-title">{t("sideNews.latestToday")}</h2>
-      </div>
+      
 
       <div className="side-news-list">
         {localizedNews.slice(0, 2).map((item) => (

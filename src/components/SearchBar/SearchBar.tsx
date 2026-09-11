@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import SearchResult from "../SearchBar/SearchResult";
 import "./SearchBar.css";
 
 interface SearchBarProps {
@@ -9,37 +10,50 @@ interface SearchBarProps {
 export default function SearchBar({ onSearch }: SearchBarProps) {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(search); 
+
+    const value = search.trim();
+
+    if (!value) return;
+
+    onSearch(value);
   };
 
   return (
-    <form onSubmit={handleSearch} className="search-bar-form  ">
-      <input
-        type="text"
-        placeholder={t("search.placeholder")}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="search-bar-input"
-      />
+    <div className="relative">
+      <form onSubmit={handleSearch} className="search-bar-form">
+        <input
+          type="text"
+          placeholder={t("search.placeholder")}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          className="search-bar-input"
+        />
 
-      <button type="submit" className="search-bar-button ">
-        <svg
-          className="search-bar-icon"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
-    </form>
+        <button type="submit" className="search-bar-button">
+          <svg
+            className="search-bar-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+      </form>
+
+      {isFocused && search.trim().length >= 4 && (
+        <SearchResult search={search} />
+      )}
+    </div>
   );
 }

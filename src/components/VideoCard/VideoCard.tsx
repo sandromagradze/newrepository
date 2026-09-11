@@ -1,17 +1,40 @@
+import "./VideoCard.css";
+
 interface VideoCardProps {
-  image: string;
-  size?: 'large' | 'small';
+  image?: string;
+  size?: "large" | "small";
 }
 
-export default function VideoCard({ image, size = 'large' }: VideoCardProps) {
+const PALITRA_LIVE_URL =
+  "https://live.palitranews.ge/hls/palitratv/index.m3u8";
+
+export default function VideoCard({
+  image,
+  size = "large",
+}: VideoCardProps) {
   return (
-    <div>
-      
-    <div className={`video-card ${size === 'large' ? 'video-card-large' : 'video-card-small'}`}>
-      <img src={image} alt="video" className="video-card-image" />
-     
-     
-    </div>
+    <div
+      className={`video-card ${
+        size === "large"
+          ? "video-card-large"
+          : "video-card-small"
+      }`}
+    >
+      <video
+        className="video-card-image"
+        controls
+        autoPlay
+        muted
+        playsInline
+        poster={image}
+      >
+        <source
+          src={PALITRA_LIVE_URL}
+          type="application/x-mpegURL"
+        />
+
+        Your browser does not support HLS video.
+      </video>
     </div>
   );
 }

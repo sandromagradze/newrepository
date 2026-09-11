@@ -1,64 +1,140 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+
 import "./ProfileCard.css";
 
 interface ProfileCardProps {
   id: number | string;
-  image: string | { "176x176"?: string | null; "198x198"?: string | null }; 
+
+  url: string;
+
+  image?:
+    | string
+    | {
+        "176x176"?: string | null;
+        "198x198"?: string | null;
+      }
+    | {
+        original?: string;
+        position?: number[];
+      }
+    | null;
+
   title: string;
+
   status?: string;
+
   position?: string;
 }
 
-export default function ProfileCard({ id, image, title, status, position }: ProfileCardProps) {
+export default function ProfileCard({
+  id,
+  url,
+  image,
+  title,
+  status,
+  position,
+}: ProfileCardProps) {
   const { t } = useTranslation();
-  
-  
-  const displayStatus = position || status || "";
 
- 
+  const displayStatus =
+    position || status || "";
 
-  
-  const imageUrl = typeof image === "string" 
-    ? image 
-    : (image && typeof image === "object" && image["176x176"] ? image["176x176"] : "");
+  /*
+   * IMAGE URL
+   */
+  const imageUrl =
+    typeof image === "string"
+      ? image
+      : image &&
+          typeof image === "object"
+        ? "176x176" in image &&
+          image["176x176"]
+          ? image["176x176"]
+          : "198x198" in image &&
+              image["198x198"]
+            ? image["198x198"]
+            : "original" in image &&
+                image.original
+              ? image.original
+              : ""
+        : "";
 
-  const hasValidImage = typeof imageUrl === "string" && imageUrl.trim() !== "";
+  const hasValidImage =
+    typeof imageUrl === "string" &&
+    imageUrl.trim() !== "";
+
+  /*
+   * API URL
+   *
+   * მაგალითად:
+   * /profiles/3-mamuka-baxtaze/
+   */
+  const profileUrl = url || `/profile/${id}`;
 
   return (
-    <div className="profile-card">
+    <Link
+      to={profileUrl}
+      className="profile-card"
+    >
       <div className="profile-card-size">
+
         <div className="profile-card-content">
+
           {hasValidImage ? (
-            <img 
-              src={imageUrl} 
-              className="profile-card-image" 
-              alt={title} 
+            <img
+              src={imageUrl}
+              className="profile-card-image"
+              alt={title}
               onError={(e) => {
-                e.currentTarget.style.display = "none";
-                const parent = e.currentTarget.parentElement;
+                e.currentTarget.style.display =
+                  "none";
+
+                const parent =
+                  e.currentTarget.parentElement;
+
                 if (parent) {
-                  const fallback = parent.querySelector(".fallback-img");
-                  if (fallback) (fallback as HTMLElement).style.display = "flex";
+                  const fallback =
+                    parent.querySelector(
+                      ".fallback-img"
+                    );
+
+                  if (fallback) {
+                    (
+                      fallback as HTMLElement
+                    ).style.display = "flex";
+                  }
                 }
               }}
             />
           ) : null}
-          
-          <div 
+
+          <div
             className="fallback-img profile-card-image bg-gray-200 items-center justify-center text-gray-400 text-xs"
-            style={{ display: hasValidImage ? "none" : "flex" }}
+            style={{
+              display: hasValidImage
+                ? "none"
+                : "flex",
+            }}
           >
             No Photo
           </div>
 
-          <h3 className="profile-card-name">{title}</h3>
-          <p className="profile-card-status">{displayStatus}</p>
+          <h3 className="profile-card-name">
+            {title}
+          </h3>
+
+          <p className="profile-card-status">
+            {displayStatus}
+          </p>
+
         </div>
-        <Link to={`/profile/${id}`} className="profile-card-button">
+
+        <div className="profile-card-button">
           {t("common.learnMore")}
+
           <svg
-            xmlns=""
+            xmlns="http://www.w3.org/2000/svg"
             className="profile-card-button-icon"
             fill="none"
             viewBox="0 0 24 24"
@@ -71,8 +147,9 @@ export default function ProfileCard({ id, image, title, status, position }: Prof
               d="M13 7l5 5-5 5M6 12h12"
             />
           </svg>
-        </Link>
+        </div>
+
       </div>
-    </div>
+    </Link>
   );
 }

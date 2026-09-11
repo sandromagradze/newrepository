@@ -56,7 +56,10 @@ export default function HomeHeroSection({ featuredNews, localizedHomeNews }: Hom
         <SideNewsCard />
       </aside>
 
-     <SideBarAd adIndex={0}/>
+             <div className="self-start lg:sticky lg:top-6 flex flex-col gap-[10px]">
+      <SideBarAd position="adword" />
+      
+    </div>
     </div>
   );
 }

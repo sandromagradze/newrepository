@@ -1,61 +1,334 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import defaultSideNewsData from "../../_data/sidebarNews.json";
-import { useLocalizedData } from "../../i18n/useLocalizedData";
+
 import "./SideNewsCard.css";
 
-type SideNewsItem = {
-  id: number;
-  time: string;
-  title: string;
-  category?: string;
-  image: string;
-};
+interface ArticleImage {
+  original: string | null;
+  thumb: string | null;
+  webp: string | null;
+  position: [number, number];
+}
 
-type SideNewsCardProps = {
-  items?: (typeof defaultSideNewsData);
+interface ArticleCategory {
+  id: number;
+  alias: string | null;
+  title: string;
+}
+
+interface CategoryArticle {
+  id: number;
+  alias: string;
+  title: string;
+  introtext: string;
+  pub_dt: string;
+  publish_up: string;
+  url: string;
+  image: ArticleImage | null;
+  categories?: ArticleCategory[];
+  gallery: unknown;
+  show_ns: boolean;
+  slider: unknown;
+  video: unknown;
+}
+
+interface CategoryBlock {
+  id: number;
+  alias: string | null;
+  articles: CategoryArticle[];
+  position: string;
+  title: string;
+  visual: string;
+}
+
+interface CategoryBlocksResponse {
+  blocks: CategoryBlock[];
+}
+
+interface SideNewsCardProps {
   visibleCount?: number;
   hasMore?: boolean;
-};
+}
+
+const API_BASE_URL = "https://dev.ipn.ge";
 
 export default function SideNewsCard({
-  items = defaultSideNewsData,
   visibleCount = 4,
   hasMore = false,
 }: SideNewsCardProps) {
-  const { t } = useTranslation();
-  const localizedItems = useLocalizedData(items) as SideNewsItem[];
+  const { t, i18n } = useTranslation();
+
+  const [articles, setArticles] = useState<CategoryArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const langCode =
+    i18n.resolvedLanguage?.split("-")[0] || "ka";
+
+  const getImageUrl = (
+    image?: string | null
+  ): string => {
+    if (!image) return "";
+
+    const src = image.trim();
+
+    if (!src) return "";
+
+    if (src.startsWith("https://")) {
+      return src;
+    }
+
+    if (src.startsWith("http://")) {
+      return src.replace(/^http:\/\//, "https://");
+    }
+
+    if (
+      src.startsWith("/media/__thumbs__/https://")
+    ) {
+      return src.replace(
+        "/media/__thumbs__/",
+        ""
+      );
+    }
+
+    if (
+      src.startsWith("/media/__thumbs__/http://")
+    ) {
+      return src
+        .replace("/media/__thumbs__/", "")
+        .replace(/^http:\/\//, "https://");
+    }
+
+    if (src.startsWith("/media/https://")) {
+      return src.replace("/media/", "");
+    }
+
+    if (src.startsWith("/media/http://")) {
+      return src
+        .replace("/media/", "")
+        .replace(/^http:\/\//, "https://");
+    }
+
+    if (src.startsWith("/media/")) {
+      return `${API_BASE_URL}${src}`;
+    }
+
+    if (src.startsWith("media/")) {
+      return `${API_BASE_URL}/${src}`;
+    }
+
+    if (src.startsWith("/")) {
+      return `${API_BASE_URL}${src}`;
+    }
+
+    return `${API_BASE_URL}/${src}`;
+  };
+
+  const getTime = (
+    date?: string | null
+  ): string => {
+    if (!date) return "";
+
+    const time = date.split("T")[1];
+
+    if (!time) return "";
+
+    return time.slice(0, 5);
+  };
+
+  useEffect(() => {
+    const fetchCategoryBlocks = async () => {
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/${langCode}/api/categoryblocks/`,
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+            },
+            body: "",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! status: ${response.status}`
+          );
+        }
+
+        const data: CategoryBlocksResponse =
+          await response.json();
+
+        const sideBlocks =
+          data.blocks?.filter(
+            (block) =>
+              block.position ===
+              "main_page_right_column"
+          ) || [];
+
+        const allArticles =
+          sideBlocks.flatMap(
+            (block) => block.articles || []
+          );
+
+        const uniqueArticles = Array.from(
+          new Map(
+            allArticles.map((article) => [
+              article.id,
+              article,
+            ])
+          ).values()
+        );
+
+        setArticles(uniqueArticles);
+      } catch (error) {
+        console.error(
+          "Failed to fetch category blocks:",
+          error
+        );
+
+        setArticles([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryBlocks();
+  }, [langCode]);
+
+  if (loading) {
+    return (
+      
+      <aside className="side-news-card">
+        
+        <div className="side-news-loading">
+          Loading...
+        </div>
+      </aside>
+    );
+  }
+
+  if (articles.length === 0) {
+    return (
+      <aside className="side-news-card">
+        <div className="side-news-loading">
+          No news found.
+        </div>
+      </aside>
+    );
+  }
 
   return (
-    <aside className="side-news-card ">
-
-      
-
+    <aside className="side-news-card">
+<div className="side-news-header">
+        <h2 className="side-news-title">{t("sideNews.latestToday")}</h2>
+      </div>
       <div className="side-news-list">
-        {localizedItems.slice(0, visibleCount).map((item) => (
-          <div key={item.id} className="side-news-item">
-            <div className="side-news-meta">
 
-              {item.category && (
-                <span className="side-news-category">• {item.category}</span>
-              )}
-            </div>
-            <img src={item.image} className="side-news-image" alt={item.title} />
-             <span className="side-news-time">{item.time}</span>
+        {articles
+          .slice(0, visibleCount)
+          .map((article) => {
 
-            <h3 className="side-news-item-title">{item.title}</h3>
-             <div className="side-news-link-wrap">
-              <p className="side-news-link">{t("common.viewAll")} ▶</p>
-            </div>
-          </div>
-        ))}
+            const imageSource =
+              article.image?.webp ||
+              article.image?.thumb ||
+              article.image?.original ||
+              "";
+
+            const imageUrl =
+              getImageUrl(imageSource);
+
+            const category =
+              article.categories?.[0]?.title || "";
+
+            const articleUrl = article.url
+              ? `${API_BASE_URL}/${langCode}${article.url}`
+              : "#";
+
+            return (
+              <article
+                key={article.id}
+                className="side-news-item"
+              >
+
+                <div className="side-news-meta">
+
+                  {category && (
+                    <span className="side-news-category">
+                      • {category}
+                    </span>
+                  )}
+
+                  <span className="side-news-time">
+                    {getTime(article.pub_dt)}
+                  </span>
+
+                </div>
+
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    className="side-news-image"
+                    alt={article.title}
+                    loading="lazy"
+                    onError={(event) => {
+
+                      const originalUrl =
+                        getImageUrl(
+                          article.image?.original
+                        );
+
+                      if (
+                        originalUrl &&
+                        event.currentTarget.src !==
+                          originalUrl
+                      ) {
+                        event.currentTarget.src =
+                          originalUrl;
+                      } else {
+                        event.currentTarget.style.display =
+                          "none";
+                      }
+
+                    }}
+                  />
+                )}
+
+                <h3 className="side-news-item-title">
+                  {article.title}
+                </h3>
+
+                <div className="side-news-link-wrap">
+
+                  <a
+                    href={articleUrl}
+                    className="side-news-link"
+                  >
+                    {t("common.viewAll")}
+                    <span>▶</span>
+                  </a>
+
+                </div>
+
+              </article>
+            );
+          })}
+
       </div>
 
       {hasMore && (
-        <div
-          className="bg-[#1E5BA6] p-[13px] flex items-center justify-center cursor-pointer gap-[10px] rounded-[3px] w-full"
-        >
-          <h1 className="text-[14px] font-[400] text-[#FFFFFF] px-[14px] leading-[30px]">{t("sideNews.showMore")}</h1>
-          <img className="ml-[10px]" src="/arrowup.svg" alt="" />
+        <div className="side-news-more">
+
+          <span>
+            {t("sideNews.showMore")}
+          </span>
+
+          <img
+            src="/arrowup.svg"
+            alt=""
+          />
+
         </div>
       )}
 

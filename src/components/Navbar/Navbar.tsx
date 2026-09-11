@@ -1,137 +1,209 @@
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import SearchBar from "../SearchBar/SearchBar";
 import WrapperA from "../WrapperA/WrapperA";
+import { useMenu } from "../hooks/useMenu";
+
 import "./Navbar.css";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-
-interface MenuItem {
-  alias: string;
-  is_external: boolean;
-  link: string;
-  text: string;
-}
-
-interface MenuResponse {
-  footer: Record<string, unknown>;
-  menu: MenuItem[];
-}
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
-  const [menu, setMenu] = useState<MenuItem[]>([]);
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useMenu();
+
+  const menu = data?.menu ?? [];
+
   useEffect(() => {
     const sentinel = sentinelRef.current;
+
     if (!sentinel) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setIsStuck(!entry.isIntersecting),
-      { threshold: 0 },
+      ([entry]) => {
+        setIsStuck(!entry.isIntersecting);
+      },
+      {
+        threshold: 0,
+      },
     );
 
     observer.observe(sentinel);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
-  useEffect(() => {
-    const lang = i18n.resolvedLanguage || "ka";
+  const getMenuUrl = (link: string) => {
+    if (!link) {
+      return "#";
+    }
 
-    const fetchMenu = async () => {
-      try {
-        const response = await fetch(
-          `https://dev.ipn.ge/${lang}/api/menu/`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-            },
-          },
-        );
+    if (
+      link.startsWith("http://") ||
+      link.startsWith("https://")
+    ) {
+      return link;
+    }
 
-        if (!response.ok) {
-          throw new Error(`Menu request failed: ${response.status}`);
-        }
+    if (link.startsWith("/")) {
+      return `https://www.interpressnews.ge${link}`;
+    }
 
-        const data: MenuResponse = await response.json();
-
-        
-        setMenu(data.menu.slice(1));
-      } catch (error) {
-        console.error("Failed to fetch navbar menu:", error);
-      }
-    };
-
-    fetchMenu();
-  }, [i18n.resolvedLanguage]);
+    return `https://www.interpressnews.ge/${link}`;
+  };
 
   const handleSearch = (searchTerm: string) => {
     console.log("Search for:", searchTerm);
   };
 
+  const visibleMenu = menu.slice(0, 11);
+
+  const extraMenu = menu.slice(11);
+
   return (
     <>
-      <div ref={sentinelRef} className="h-px w-full" />
+      <div
+        ref={sentinelRef}
+        className="h-px w-full"
+      />
 
       <nav
         className={`bg-white text-[12px] w-full sticky top-0 z-50 transition-shadow duration-300 ${
-          isStuck ? "shadow-md" : "shadow-none"
+          isStuck
+            ? "shadow-md"
+            : "shadow-none"
         }`}
       >
         <WrapperA>
-          <div className="flex items-center justify-between py-2">
-            <div className="flex items-center gap-[30px]">
-              <img
-                src="/ipn.jpeg"
-                alt={t("header.logoAlt")}
-                className={`h-10 overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out ${
-                  isStuck
-                    ? "max-w-[160px] opacity-100"
-                    : "max-w-0 opacity-0"
-                }`}
+          <div className="relative">
+
+            <div className="flex items-center justify-between py-2">
+
+              <div className="flex items-center gap-[30px]">
+
+                <img
+                  src="/ipn.jpeg"
+                  alt={t("header.logoAlt")}
+                  className={`h-10 overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out ${
+                    isStuck
+                      ? "max-w-[160px] opacity-100"
+                      : "max-w-0 opacity-0"
+                  }`}
+                />
+
+                <ul className="flex gap-[16px] items-center list-none m-0 p-0">
+
+                  {isLoading && (
+                    <li>
+                      Loading...
+                    </li>
+                  )}
+
+                  {isError && (
+                    <li>
+                      Failed to load menu
+                    </li>
+                  )}
+
+                  {!isLoading &&
+                    !isError &&
+                    visibleMenu.map((item) => {
+                      const url = getMenuUrl(item.link);
+
+                      return (
+                        <li
+                          key={item.alias}
+                          className="navitem"
+                        >
+                          <a
+                            href={url}
+                            target={
+                              item.is_external
+                                ? "_blank"
+                                : "_self"
+                            }
+                            rel={
+                              item.is_external
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
+                            className="nav-link"
+                          >
+                            {item.text}
+                          </a>
+                        </li>
+                      );
+                    })}
+
+                  {extraMenu.length > 0 && (
+                    <li className="navitem more-menu">
+
+                      <button
+                        type="button"
+                        className="nav-link more-button"
+                        aria-label={t(
+                          "header.menuToggle",
+                          "More menu",
+                        )}
+                      >
+                        <img
+                          src="/burger.svg"
+                          alt=""
+                        />
+                      </button>
+
+                      <div className="more-dropdown">
+
+                        <div className="more-dropdown-inner">
+
+                          {extraMenu.map((item) => {
+                            const url =
+                              getMenuUrl(item.link);
+
+                            return (
+                              <a
+                                key={item.alias}
+                                href={url}
+                                target={
+                                  item.is_external
+                                    ? "_blank"
+                                    : "_self"
+                                }
+                                rel={
+                                  item.is_external
+                                    ? "noopener noreferrer"
+                                    : undefined
+                                }
+                                className="dropdown-link"
+                              >
+                                {item.text}
+                              </a>
+                            );
+                          })}
+
+                        </div>
+                      </div>
+                    </li>
+                  )}
+
+                </ul>
+              </div>
+
+              <SearchBar
+                onSearch={handleSearch}
               />
 
-              <ul className="flex gap-[16px] items-center list-none m-0 p-0">
-                {menu.map((item) => (
-                  <li key={item.alias} className="navitem">
-                    {item.is_external ? (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-blue-600 transition-colors"
-                      >
-                        {item.text}
-                      </a>
-                    ) : (
-                      <Link
-                        to={item.link}
-                        className="hover:text-blue-600 transition-colors"
-                      >
-                        {item.text}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="cursor-pointer"
-                aria-label={t("header.menuToggle", "Toggle menu")}
-                aria-expanded={isOpen}
-              >
-                <img src="/burger.svg" alt="" />
-              </button>
             </div>
-
-            <SearchBar onSearch={handleSearch} />
           </div>
         </WrapperA>
       </nav>

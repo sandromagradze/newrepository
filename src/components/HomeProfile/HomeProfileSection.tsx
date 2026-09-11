@@ -7,10 +7,11 @@ interface ProfileItem {
   alias?: string;
   title: string;
   position: string;
-image?: {
-    original?: string;
-    position?: number[];
-  } | string;
+  image?:
+    | string
+    | { original?: string; position?: number[] }
+    | { "176x176"?: string | null; "198x198"?: string | null }
+    | null;
   images?: {
     "176x176"?: string | null;
     "198x198"?: string | null;

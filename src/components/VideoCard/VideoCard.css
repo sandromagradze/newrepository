@@ -1,30 +1,29 @@
 .video-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border-radius: 0.25rem;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  width: 100%;
+  /* border-radius: 8px; */
 }
 
 .video-card-large {
-  height: 125px; 
-  width: 100%;
-  object-fit: cover;
-  padding: 0;
+  width: 720px;
+  height: 320px;
 }
 
 .video-card-small {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  padding: 0;
 }
 
 .video-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0.25rem;
+  display: block;
+  background: #000;
+}
+
+.video-card-large .video-card-image {
+  aspect-ratio: 16 / 9;
+}
+
+.video-card-small .video-card-image {
+  aspect-ratio: 16 / 9;
 }

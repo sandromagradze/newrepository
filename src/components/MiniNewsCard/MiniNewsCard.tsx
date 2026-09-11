@@ -1,49 +1,89 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import type { NewsItem } from "../HomeVideo/HomeVideoSection";
+
 import "./MiniNewsCard.css";
 
-interface PhotoData {
-  title: string;
-  url: string;
-  id: number;
+interface MiniNewsCardProps {
+  news: NewsItem;
 }
 
-export default function MiniNewsCard() {
-  const { t } = useTranslation();
-  const [news, setNews] = useState<PhotoData | null>(null);
+export default function MiniNewsCard({
+  news,
+}: MiniNewsCardProps) {
+  const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    
-    const randomId = Math.floor(Math.random() * 100) + 1;
-    const apiUrl = `https://jsonplaceholder.typicode.com/photos/${randomId}`;
+  const langcode =
+    i18n.resolvedLanguage?.split("-")[0] || "ka";
 
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setNews(data);
-      })
-      .catch((err) => console.error("მონაცემების ჩატვირთვის შეცდომა:", err));
-  }, []);
+  const getImageUrl = (
+    image: NewsItem["image"],
+  ): string | null => {
+    if (!image?.original) {
+      return null;
+    }
 
-  if (!news) {
-    return <div className="mini-news-card loading">{t("common.loading")}</div>;
-  }
+    const src = image.original.trim();
+
+    if (
+      src.startsWith("http://") ||
+      src.startsWith("https://")
+    ) {
+      return src;
+    }
+
+    return `https://dev.ipn.ge/${src.replace(
+      /^\/+/,
+      "",
+    )}`;
+  };
+
+  const imageUrl = getImageUrl(news.image);
+
+  const articleUrl =
+    `https://dev.ipn.ge/${langcode}${news.url}`;
 
   return (
-    <div className="mini-news-card">
+    <a
+      href={articleUrl}
+      className="mini-news-card block"
+    >
       <div className="mini-news-card-inner">
+
+        {/* IMAGE */}
         <div className="image-width">
-        <img
-          src={`https://picsum.photos/seed/${news.id}/200/300`}
-          alt={t("common.newsAlt")}
-          className="mini-news-card-image"
-        />
-</div>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={news.title}
+              className="mini-news-card-image"
+              onError={(event) => {
+                
+
+                event.currentTarget.style.display =
+                  "none";
+              }}
+            />
+          ) : (
+            <div className="image-placeholder">
+              {t("common.noImage")}
+            </div>
+          )}
+        </div>
+
+        {/* CONTENT */}
         <div className="mini-news-card-content">
-          <span className="mini-news-card-time">10:00 / 2026</span>
-          <h3 className="mini-news-card-title">{news.title}</h3>
+
+          <span className="mini-news-card-time">
+            {news.publish_up}
+          </span>
+
+          <h3 className="mini-news-card-title">
+            {news.title}
+          </h3>
+
         </div>
       </div>
-    </div>
+    </a>
   );
 }
